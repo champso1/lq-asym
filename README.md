@@ -40,6 +40,12 @@ Also, the replacement files contain a lot of information about the samples and s
 
 
 
+### Config Files
+
+There are a lot of replacement files here. I try to remove some, and I made some paths within them relative so they don't have to be changed, but there are still a good number of things that need to be changed. I describe which ones we need to change in each respective step, but I summarize all of the replacement files and config files you need to change [here](#replacement-and-config-files)
+
+
+
 
 ## Pre-Fit Yields
 
@@ -138,6 +144,36 @@ The former will cut out events whose probability of being LQ is below 0.5, and t
 For a measure of the statistical uncertainty, only consider output from second one (the one without the cut), since that has all of the events and thus the best measure of uncertainty.
 
 The files are output to `outputs/probs` and `outputs/probs_no-cut` respectively. The statistical uncertainty information is found in `outputs/probs_no-cut/NormFactor.(png/pdf)`.
+
+
+
+## Replacement and Config Files
+
+Here I summarize all of the config/replacement files that need to be changed and what to change within them. In many cases, all that is needed is to change the first have of an absolute path so that it points to your copy of the repository, because the internal structure of the repository is the same. The only time this would change is if you change the type of machine learning model, then you'd need to change `resnet-6` to the name of your model everywhere you see it.
+
+
+`data_processing/config-friend.yaml`:
+- `source_base_dir`: Change this to point to your version of the small ntuple folder. All that is needed is to change the tilde to point to your copy of the repository.
+- `target_base_dir`: Again, just change the tilde.
+- `model_path`: Same thing again.
+
+`data_processing/config.yaml`:
+- `source_base_dir`: Change this to point to your version of the nominal ntuples.
+
+`jobs/produce_small/condor_submit.sub`:
+- Change the executable/output/error/log paths. All that is needed is to change the two bits that correspond to my user to yours.
+
+`jobs/produce_small/produce_small.sh`:
+- Change the first path so that the script cd's into your copy of the repository.
+- If you placed your virtual environment somewhere else and/or named it something else, make sure to change that path as well.
+
+`trex-fitter/replacements/replacement.txt`
+- `XXX_NtuplePaths`: Change this to point to your copy of the nominal (full) ntuples.
+- I am almost entirely sure that the other replacement file is responsible for anything friend-related. Just in case, though, modify the first half of the `XXX_FriendPaths` to point to your copy of the repository. If you use a different model, `resnet-6` to your model name.
+
+`trex-fitter/replacements/replacement_small.txt`
+- `XXX_NtuplePaths`: Change the first half to point to your copy of the repository.
+- `XXX_FriendPaths`: Do the same. Just as with the other replacement, also change the `resnet-6` part of the path to your model name if you use a different model.
 
 
 
