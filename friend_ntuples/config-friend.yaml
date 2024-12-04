@@ -1,0 +1,8 @@
+source_base_dir: ~/lq-asym/friend_ntuples/output/small      # no trailing '/'!!!
+target_base_dir: ~/lq-asym/friend_ntuples/output/friend/    # yes trailing '/'!!!
+model_path: ~/lq-asym/friend_ntuples/model.py
+trex_config: ./configs/training.config
+region: lep-pt-0
+branch_name: probs_lq
+batch_size: 5000
+model: resnets/resnet-6

@@ -1,0 +1,114 @@
+@use "colors" as colors;
+
+.jobs {
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.job {
+    position: relative;
+    margin: 10px;
+    padding: 15px 20px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 0 10px 0 rgba(143, 143, 143, 0.35);
+
+    transition: all 0.2s ease-in-out;
+
+    &.running {
+        box-shadow: 0 0 10px 0 rgba(255, 230, 3, 0.35);
+    }
+
+    &.missing {
+        box-shadow: 0 0 10px 0 rgba(128, 128, 128, 0.538);
+        background-color: #eeeeee;
+        filter: saturate(0.3) brightness(1.2) contrast(0.3);
+        pointer-events: none;
+    }
+
+    &:hover {
+        box-shadow: 0 0 10px 0 rgba(67, 67, 67, 0.5);
+        transform: scale(1.02);
+    }
+
+    &-main {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+        margin-bottom: 10px;
+    }
+
+    &-actions {
+        display: flex;
+        align-items: flex-start;
+    }
+
+
+    &-action {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        margin: 0 5px;
+
+        &-logs-container {
+            display: flex;
+        }
+
+
+        &-cluster {
+            @extend .tag;
+            display: flex;
+            align-items: center;
+
+            &.running {
+                $start: #4184b8;
+                $end: #7345b7;
+
+                @keyframes fade {
+                    0% {
+                        background-color: $start;
+                        opacity: 1;
+                    }
+                    50% {
+                        background-color: $end;
+                        opacity: 0.5;
+                    }
+                    100% {
+                        background-color: $start;
+                        opacity: 1;
+                    }
+                }
+
+                animation: fade 1.5s ease-in-out infinite;
+
+                &:hover {
+                    opacity: 1 !important;
+                }
+            }
+
+            &.failed {
+                background-color: colors.$bad;
+            }
+        }
+
+    }
+
+    &-artifacts-section {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    &-title {
+        text-transform: capitalize;
+        margin: 5px 0;
+    }
+
+    &-info {
+        margin-right: 30px;
+    }
+}

@@ -1,0 +1,16 @@
+executable            = /afs/cern.ch/user/c/cahampso/lq-asym/jobs/produce_small/produce_small.sh
+
+output                = /afs/cern.ch/user/c/cahampso/lq-asym/.condor/produce_small/logs/output
+error                 = /afs/cern.ch/user/c/cahampso/lq-asym/.condor/produce_small/logs/err
+log                   = /afs/cern.ch/user/c/cahampso/lq-asym/.condor/produce_small/logs/log
+
+
+request_cpus   = 1
+request_memory = 8200M
+request_disk   = 16383K
+# this gives it one whole day
++JobFlavour    = "nextweek"
+
+arguments = $(infile)
+
+queue infile from ../names.txt

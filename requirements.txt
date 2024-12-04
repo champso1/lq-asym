@@ -1,0 +1,9 @@
+uproot
+wandb
+argparse
+tqdm
+numpy
+autorootcwd
+scikit-learn
+matplotlib
+seaborn

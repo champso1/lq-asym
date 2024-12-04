@@ -1,0 +1,24 @@
+trex_config: ./configs/training_small.config
+region: "lep-pt-0"
+output_path: "output"
+features: ./features/c_hampson.yaml
+categorical_features: ./features/categorical.yaml
+array_features: ./features/array.yaml
+invalid_values: ./features/invalid.yaml
+n_jets: 6
+samples:
+    - lq
+    - ttH
+    - ttW
+    - ttW_EW
+    - ttbar
+    - ttZ
+    - VV
+    - tZ
+    - WtZ
+    - tW
+    - threeTop
+    - ggVV
+    - VVV
+    - WttW
+    - Zjets

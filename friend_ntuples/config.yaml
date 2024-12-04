@@ -1,0 +1,8 @@
+source_base_dir: /eos/home-c/cahampso/ntuples/nominal/
+target_base_dir: ./friend_ntuples/output/
+model_path: ./friend_ntuples/model.py
+trex_config: ./configs/training.config
+region: lep-pt-0
+branch_name: probs_lq
+batch_size: 5000
+model: resnets/resnet-6

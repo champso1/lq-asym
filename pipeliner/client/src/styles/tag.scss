@@ -1,0 +1,35 @@
+@use "colors" as colors;
+@use "variables" as variables;
+
+@mixin tag($radius: variables.$border-radius, $color: colors.$neutral) {
+    color: white;
+    background-color: $color;
+    border-radius: $radius;
+    min-height: 25px;
+    padding: 5px;
+    margin: 2px;
+
+    &>.tag-text {
+        margin: auto 5px;
+    }
+}
+
+.tag {
+    @include tag;
+
+    &.bad {
+        @include tag($color: colors.$bad);
+    }
+
+    &.good {
+        @include tag($color: colors.$good);
+    }
+
+    &.pending {
+        @include tag($color: colors.$pending);
+    }
+
+    &.neutral {
+        @include tag($color: colors.$neutral);
+    }
+}

@@ -1,0 +1,4 @@
+extend: resnets/resnet-10
+
+n_embed: 128
+dropout: 0.5
