@@ -116,7 +116,9 @@ If you are going to be running multiple iterations (which you almost surely are)
 
 To get the output of the model on our samples, we create friend ntuples, which are new ntuples that have only one branch: the output of the model which classifies the probability of an event being signal (LQ). This should also be done on the local machine. If you did the training on lxplus, then do this step also on lxplus, to keep it consistent.
 
-We first need to copy all of the small ntuples to our local machine as well, and just as with the numpy files, place them in the same directory, namely `friend_ntuples/output/small`. All of the paths at this point should be relative, meaning that this is all that should have to be done. Now we just run
+We first need to copy all of the small ntuples to our local machine as well, and just as with the numpy files, place them in the same directory, namely `friend_ntuples/output/small`. 
+
+All of the paths at this point should be relative, meaning that this is all that should have to be done. Now we just run
 
 ```
 python3 friend_ntuples/produce_friend.py
