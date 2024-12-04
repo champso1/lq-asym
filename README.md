@@ -14,7 +14,7 @@ The ntuples should be copied from wherever they are in ATLAS's EOS to somewhere 
 A few of these steps require HTCondor usage, and currently there isn't support for running jobs from EOS. Because of this, create an identical folder in your AFS called `lq-asym`, then copy (or move, if you'd like) the `jobs` and `.condor` folders from the project into this new AFS folder. Any time I reference running HTCondor jobs, then we are considering these directories from within your AFS, not the EOS ones.
 
 ### Python
-Pytorch installs a number of packages that are quite large. The default pip cache directory is in your AFS, and the cache will exceed the maximum 2GB you are allotted very quickly. So, set the pip cache directory to somewhere in your EOS like so:
+The default pip cache directory is in your AFS, and the cache will exceed the maximum 2GB you are allotted very quickly most likely. So, set the pip cache directory to somewhere in your EOS like so:
 
 ```
 export PIP_CACHE_DIR=<some-path-in-your-EOS>
@@ -72,26 +72,11 @@ condor_submit condor_submit.sub
 You should see ~875 jobs submitted, more if there have been more LQ samples produced. It shouldn't take too long to run. The files will be output back to your EOS version of the project, in the `friend_ntuples/output/small` folder.
 
 
-
-## Data Processing / Root-To-Numpy
-
-To do the training, we need numpy files as opposed to ROOT files, as pytorch has no idea what those are. In principle we would convert the raw ntuples into numpy files, but on my machine these were too big to be loaded into pytorch, so I made "medium" ntuples that are half the size. The script to do this is again back in the AFS jobs folder. Navigate to `root_to_numpy` and open the files in that directory and change paths as needed, then submit the jobs in the same way as for the small ntuples.
-
-The medium ntuples will be output in the same place as the nominal ntuples. For instance, if you have the nominal ntuples saved in `<your_eos>/ntuples/nominal`, then the medium ones will be output to `<your_eos>/ntuples/medium`.
-
-After producing the medium ntuples, you will need to edit the TRExFitter replacement file found in `trex-fitter/replacements/replacement-medium.txt`. This is an identical copy to the original replacement file, but you will need to change the `XXX_NtuplePaths` variable to point to the medium ntuples instead. This should just involve a change of the final bit in the path.
-
-The processing of all the ntuples takes long enough that lxplus will kill it, so we need HTCondor again. As before navigate to the AFS `jobs` folder and go to the `root_to_numpy` folder. Edit the paths within the files accordingly and submit the job. This one isn't parallelized, so it may take some time.
-
-The files are output to `data_processing/output` in the EOS version of the project.
-
-
-
 ## Machine Learning
 
-We now copy these files to the version of this project on the local machine. Place them in the same directory, namely, `data_processing/output`.
+We now copy these small ntuples to the version of this project on the local machine. Place them in the same directory, namely, `data_processing/output`.
 
-The `requirements.txt` file does not contain pytorch, since we don't want it on lxplus as it'll take absolutely ages to install. So, on your local machine, ensure you're in your virtual environment and run `python3 -m pip install torch`.
+The `requirements.txt` file does not contain pytorch, since we don't want it on lxplus as it'll take absolutely ages to install. So, on your local machine, ensure you're in your virtual environment and run `python3 -m pip install torch`. Or, if you are training on lxplus, you can just install pytorch there.
 
 I edited none of the machine learning code, so there is nothing really to change here. If you go to `ml/configs`, you can browse around for the different models that are available, or make your own. I did a ResNet-6, and for this I typed:
 
@@ -102,6 +87,10 @@ python3 ./ml/train.py resnets/resnet-6
 where I omit the file extension.
 
 This also uses WandB, so set up an account there.
+
+### Note
+
+If you are going to be running multiple iterations (which you almost surely are), make sure that you go to the WandB website and either rename, move, or delete any previous runs of the same model. When doing the friend ntuples, the code searches by name for a matching model/run name, but it doesn't take into account time of creation. It may grab a previous model. Renaming/moving/deleting previous runs ensures there is only one run with that name so there is no ambiguity as to which one it uses.
 
 
 ## Friend Ntuples
@@ -115,6 +104,11 @@ python3 friend_ntuples/produce_friend.py
 ```
 
 The outputted files will be placed in `friend_ntuples/output/friend/<model-name>`.
+
+### Note
+
+There is a comment within the `friend-config.yaml` file that requires some attention. Since all these files are relative (rather, they use the `~`) there is no reason to go and change anything within it, but if you need to, take care in noting that the `source_base_dir`, if it contains a trailing forward slash, will break the code for whatever reason. Additionally, the `target_base_dir` _must_ contain a trailing slash or else the code will break. This is something that I could have gone in and fixed, but the code is really just a mess and I didn't want to have to deal with that.
+
 
 
 
@@ -137,3 +131,15 @@ The former will cut out events whose probability of being LQ is below 0.5, and t
 For a measure of the statistical uncertainty, only consider output from second one (the one without the cut), since that has all of the events and thus the best measure of uncertainty.
 
 The files are output to `outputs/probs` and `outputs/probs_no-cut` respectively. The statistical uncertainty information is found in `outputs/probs_no-cut/NormFactor.(png/pdf)`.
+
+
+
+## Next Steps
+
+Assuming this pipeline works at all, I have been having difficulties with cut criteria and training and whatnot. It also may be beneficial at some point or another to again try training with those medium ntuples that I did before, just for more data.
+
+In principle, we would have similar `p` tags for all the ntuples. The backgrounds being different from the LQ samples led to the removal of a few important variables used in cut criteria, and perhaps other general differences between the two are causing some issues. I believe this is in the process of being resolved in one way or another.
+
+Lastly, since this entire release of ntuples is _very_ different from the previous release, there are still a number of issues with all the other missing variables. Perhaps, since this release's ntuples have been out for a while, it is possible to find someone to ask if there have been TRExFitter replacement/configuration files made (specifically within the Tau+X group, if possible) for this release. I know that I was given a link on the Tau+X eos for some of these a while back, but I believe they were for the previous ntuple release.
+
+Once all of this is sorted out (which I can't imagine will be anytime soon, unfortunately), then time can be spent fine-tuning the machine learning model and stuff like that.
