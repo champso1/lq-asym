@@ -72,6 +72,19 @@ condor_submit condor_submit.sub
 You should see ~875 jobs submitted, more if there have been more LQ samples produced. It shouldn't take too long to run. The files will be output back to your EOS version of the project, in the `friend_ntuples/output/small` folder.
 
 
+## Data Processing
+
+Next, we need to transform the small ntuples into numpy files so that Pytorch can read them. All that is needed to be done is to change the `XXX_NtuplePaths` variable inside the `replacement_small.txt` file within the TRExFitter configs to point to your version of the small ntuples. While you're there, go ahead and change the path to the friend ntuples to point to your own. All that this should entail is changing my user to yours in the path.
+
+With this, just run
+
+```
+python3 data_processing/main.py
+```
+
+The numpy files will be put in `data_processing/output`.
+
+
 ## Machine Learning
 
 We now copy these small ntuples to the version of this project on the local machine. Place them in the same directory, namely, `data_processing/output`.
