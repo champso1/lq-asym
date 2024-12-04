@@ -130,13 +130,7 @@ There is a comment within the `friend-config.yaml` file that requires some atten
 Copy the friend ntuples back to lxplus in the same directory. In the file `trex-fitter/replacements/replacement.txt`, edit `XXX_FriendPaths` to point (as an absolute path) to your friend ntuples. Then, from within the `trex-fitter` folder run
 
 ```
-trex-fitter nwdfr configs/probs.config
-```
-
-and/or
-
-```
-trex-fitter nwdfr configs/probs_no-cut.config
+trex-fitter nwdfrl configs/probs.config
 ```
 
 The former will cut out events whose probability of being LQ is below 0.5, and the latter keeps every event (but still only those within the signal region). I have this setup this way since we currently have so few LQ samples that even though the model is decent, there are just not enough LQ events and relatively too many background events that we can't really see anything in the output plots. 
