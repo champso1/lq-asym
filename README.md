@@ -154,12 +154,12 @@ The files are output to `outputs/probs` and `outputs/probs_no-cut` respectively.
 Here I summarize all of the config/replacement files that need to be changed and what to change within them. In many cases, all that is needed is to change the first have of an absolute path so that it points to your copy of the repository, because the internal structure of the repository is the same. The only time this would change is if you change the type of machine learning model, then you'd need to change `resnet-6` to the name of your model everywhere you see it.
 
 
-`data_processing/config-friend.yaml`:
+`friend_ntuples/config-friend.yaml`:
 - `source_base_dir`: Change this to point to your version of the small ntuple folder. All that is needed is to change the tilde to point to your copy of the repository.
 - `target_base_dir`: Again, just change the tilde.
 - `model_path`: Same thing again.
 
-`data_processing/config.yaml`:
+`friend_ntuples/config.yaml`:
 - `source_base_dir`: Change this to point to your version of the nominal ntuples.
 
 `jobs/produce_small/condor_submit.sub`:
