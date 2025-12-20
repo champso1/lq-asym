@@ -87,6 +87,7 @@ def load_checkpoint(name: Union[str, Checkpoint],
         scheduler.load_state_dict(torch.load(scheduler_name))
 
     # Load the stats
-    stats = torch.load(stats_name) if stats_name is not None and os.path.exists(stats_name) else None
+    # torch.serialization.add_safe_globals([ml.evaluation.evaluate.evaluate])
+    stats = torch.load(stats_name, weights_only=False) if stats_name is not None and os.path.exists(stats_name) else None
 
     return stats

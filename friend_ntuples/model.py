@@ -32,7 +32,7 @@ class Model:
         cls = Transformer if "transformer" in model_name else ResNet
         self.nn = cls.from_saved(path, device=self.device)
 
-        saved_data = torch.load(path)
+        saved_data = torch.load(path, weights_only=False)
 
         self.threshold = saved_data["threshold"]
 
@@ -45,7 +45,7 @@ class Model:
         self.map_categorical = saved_data["map_categorical"]
 
         self.y_names = saved_data["y_names"]
-        self.signal_idx = self.y_names.index("lq")
+        self.signal_idx = self.y_names.index("LQ")
 
         self.mean = saved_data["mean"]
         self.std = saved_data["std"]
@@ -55,8 +55,9 @@ class Model:
 
         self.n_jets = 0
         for i, feature in enumerate(self.features):
-            # If feature is like jets_XXX_Y then turn it into jets_XXX
-            if re.match(r"jets_[a-zA-Z0-9]+_[0-9]+", feature):
+            # If feature is like jet_XXX_Y or tau_XXX_Y then turn it into jets_XXX and tau_XXX
+
+            if re.match(r"^jet_.*_\d$", feature) or re.match(r"^tau_.*_\d$", feature):
                 self.features[i] = feature[: feature.rfind("_")]
                 jet_index = int(feature[feature.rfind("_") + 1:])
                 self.n_jets = max(self.n_jets, jet_index + 1)
@@ -96,9 +97,10 @@ class Model:
 
         # Process continuous features
         for i, feature in enumerate(self.x_names_continuous):
-            if not re.match(r"jets_[a-zA-Z0-9]+_[0-9]+", feature):
+            if not re.match(r"^jet_.*_\d$", feature) and not re.match(r"^tau_.*_\d$", feature):
                 feature = torch.from_numpy(x[feature].to_numpy()).to(self.device)
             else:
+                
                 feature_i = int(feature[feature.rfind("_") + 1:])
                 feature_name = feature[: feature.rfind("_")]
                 feature_data = x[feature_name]
@@ -113,15 +115,19 @@ class Model:
             feature = (feature - self.mean[i]) / self.std[i]
             x_continuous[:, i] = feature
 
+
         # Process categorical features
         for i, feature in enumerate(self.x_names_categorical):
             mapped = self.alternative_map[feature]
             feature = x[feature].to_numpy()
 
+
             for key, value in mapped.items():
                 feature[feature == key] = value
 
+
         x_continuous = x_continuous.to(self.device)
         x_categorical = x_categorical.to(self.device)
+
 
         return Batch(x_continuous, x_categorical)

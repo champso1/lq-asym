@@ -111,7 +111,7 @@ def load_from_config(config):
 
     # Merge all the background classes (everything except lq) into one
     if config.use_binary:
-        background_classes = [c for c in trn.y_names if c != "lq"]
+        background_classes = [c for c in trn.y_names if c != "LQ"]
         trn = trn.merge_classes(names=background_classes, new_class_name="background")
         val = val.merge_classes(names=background_classes, new_class_name="background")
         tst = tst.merge_classes(names=background_classes, new_class_name="background")

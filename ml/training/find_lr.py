@@ -33,7 +33,7 @@ def find_lr(model: Model,
     # Mixed precision and its gradient scaler
     assert half is None or half == torch.float16 or half == torch.bfloat16
     use_half = half is not None
-    scaler = torch.cuda.amp.GradScaler(enabled=use_half)
+    scaler = torch.amp.GradScaler('cuda', enabled=use_half)
 
     # region Register the handler for SIGINT
     interrupted = False

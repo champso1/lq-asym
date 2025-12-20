@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 
-def plot_training_stats(epochs, loss_trn, loss_val, accuracy, accuracy_lq, initial_loss):
+def plot_training_stats(epochs, loss_trn, loss_val, accuracy, accuracy_LQ, initial_loss):
     # Plot the loss
     fig, ax = plt.subplots(figsize=(10, 8))
     ax.plot(epochs, loss_trn, label="Training loss")
@@ -21,7 +21,7 @@ def plot_training_stats(epochs, loss_trn, loss_val, accuracy, accuracy_lq, initi
     # Plot the accuracy
     fig, ax = plt.subplots(figsize=(10, 8))
     ax.plot(epochs, accuracy, label="Validation accuracy")
-    ax.plot(epochs, accuracy_lq, label="Validation accuracy (lq)")
+    ax.plot(epochs, accuracy_LQ, label="Validation accuracy (LQ)")
 
     ax.legend()
     ax.set_xlabel("Epoch")

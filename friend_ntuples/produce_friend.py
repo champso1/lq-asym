@@ -1,4 +1,6 @@
-import autorootcwd  # Do not delete - adds the root of the project to the path
+import autorootcwd  # Dont delete - adds the root of the project to the path
+
+import ROOT
 
 from array import array
 import os
@@ -15,13 +17,13 @@ from ml.utils import get_config
 from pipeliner.utils import read_yaml
 
 parser = ArgumentParser()
-parser.add_argument("--config", default="~/lq-asym/friend_ntuples/config-friend.yaml", help="Path to the config file")
+parser.add_argument("--config", default="~/CERN/lq-asym-new/friend_ntuples/config-friend.yaml", help="Path to the config file")
 parser.add_argument("--restart", action="store_true", help="Restart from the beginning")
 parser.add_argument("--source-base-dir", help="Override the source base directory specified in the config file")
 parser.add_argument("--target-base-dir", help="Override the target base directory specified in the config file")
 parser.add_argument("--include-original", type=str2bool, help="Include the original branches in the output file")
 parser.add_argument("--model-path", help="Path to the custom model file")
-parser.add_argument("--branch-name", help="Name of the branch to add", default="probs_lq")
+parser.add_argument("--branch-name", help="Name of the branch to add", default="probs_LQ")
 parser.add_argument("--file", help="Process only the specified file")
 
 args = parser.parse_args()
@@ -95,6 +97,7 @@ def process_file(i_file, file_name, source_path, target_path):
 
             # We need to join the individual cycles
             trees = list(set([tree.split(";")[0] for tree in trees]))
+            trees = ["reco"]
             predictions = {}
 
             # Loop over all the trees
@@ -123,48 +126,19 @@ def process_file(i_file, file_name, source_path, target_path):
                 predictions[tree_name] = np.concatenate(predictions_tree)
 
         # Save the predictions
-        if include_original:
-            # Copy the file
-            shutil.copyfile(source_path, target_path)
-
-            # Open with ROOT to update (currently not possible with uproot)
-            file = ROOT.TFile.Open(target_path, "UPDATE")
-
-            # Get the list of trees
-            trees = file.GetListOfKeys()
-            total_trees = trees.GetEntries()
-
-            # Iterate over the trees
+        with uproot.recreate(target_path) as target_file:
             for tree_name, predictions in predictions.items():
-                tree_name = tree.GetName()
-                tree = file.Get(tree_name)
+                target_file[tree_name] = {added_branch_name: predictions}
 
-                # Create the new branch
-                prob = array("f", [0])
-                bpt = tree.Branch(added_branch_name, prob, f"{added_branch_name}/F")
+        # give this shit a test
+        with ROOT.TFile.Open(target_path, "UPDATE") as f:
+            tree = f.Get("reco")
 
-                # Keep only active branches
-                tree.SetBranchStatus("*", 0)
-                tree.SetBranchStatus(added_branch_name, 1)
+            if tree.TestBit(ROOT.TTree.kEntriesReshuffled):
+                tree.ResetBit(ROOT.TTree.kEntriesReshuffled)
 
-                # Fill the new branch
-                for i_event, prediction in enumerate(predictions):
-                    tree.GetEntry(i_event)
-                    prob[0] = prediction
-                    bpt.Fill()
-
-                # Reset the branch status
-                tree.SetBranchStatus("*", 1)
-
-                # Write the tree
-                tree.Write()
-
-            # Close the file
-            file.Close()
-        else:
-            with uproot.recreate(target_path) as target_file:
-                for tree_name, predictions in predictions.items():
-                    target_file[tree_name] = {added_branch_name: predictions}
+                tree.Write("", ROOT.TObject.kOverwrite)
+                
 
         # Add the file to the list of processed files (create an empty file)
         with open(processed_path, "w") as f:
@@ -176,6 +150,8 @@ def process_file(i_file, file_name, source_path, target_path):
         # Add the file to the list of failed files
         with open(failed_path, "a") as f:
             f.write(file_name + "\n")
+            
+        return
 
 
 for i_file, file_name, source_path, target_path in iterate_files(source_base_dir, target_base_dir, files, restart=args.restart):

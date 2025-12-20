@@ -33,7 +33,7 @@ def convert_object_features(data, object_features: "list[str]", non_object_featu
             object_features_data[f"{feature}_{i}"] = object_feature[:, i]
 
     w = data["weight"].to_numpy()
-    event_numbers = data["eventNumber"].to_numpy()
+    event_numbers = np.ones_like(w)
 
     n_features_non_object = len(non_object_features)
     n_samples = w.shape[0]

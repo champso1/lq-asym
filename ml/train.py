@@ -120,7 +120,7 @@ for trial in range(repeat):
 
     optim = Optim(model.parameters(), lr)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-        optim, patience=50000, factor=0.1, threshold=0.01, verbose=True, min_lr=1e-7
+        optim, patience=50000, factor=0.1, threshold=0.01, min_lr=1e-7
     )
 
     # Train. Obtain the checkpoints of the best and the last models
@@ -133,7 +133,7 @@ for trial in range(repeat):
         model,
         trn,
         val,
-        "ttH",
+        "LQ",
         device=config.device,
         use_tqdm=True,
         F=F,

@@ -8,12 +8,13 @@ from ml.utils import get_config
 from ml.training import Checkpoint
 
 
-def get_run(run_name: str, project_name="mtcp"):
+def get_run(run_name: str, project_name="fastframes"):
     # Get the artifacts of the run
     api = wandb.Api()
 
     # Find the runs matching the name
-    runs = api.runs(project_name, {"$and": [{"state": "finished"}]})
+    runs = api.runs(project_name,{"$and": [{"state": "finished"}]})
+    print(len(runs))
     for run in runs:
         if run_name == run.name:
             break

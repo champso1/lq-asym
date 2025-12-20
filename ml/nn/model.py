@@ -75,7 +75,7 @@ class Model(nn.Module, ABC):
 
     @classmethod
     def from_saved(cls, path: str, device="cpu", compile=False, return_stats=False):
-        saved_data = torch.load(path, map_location=device)
+        saved_data = torch.load(path, map_location=device, weights_only=False)
 
         # For old models
         if "n_features_continuous" not in saved_data:

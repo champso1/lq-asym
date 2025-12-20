@@ -17,7 +17,7 @@ def evaluate_confusion_matrices(model: Model, val: Data, threshold=0.0, batch_si
     model.to(device)
 
     # Get the probabilities
-    signal_idx = val.y_names.index("lq")
+    signal_idx = val.y_names.index("LQ")
 
     if threshold is None:
         # Use argmax
@@ -42,7 +42,7 @@ def evaluate_confusion_matrices(model: Model, val: Data, threshold=0.0, batch_si
     fig1.tight_layout()
 
     # Now plot CM for just the signal class
-    cm = confusion_matrix(y_pred, val.y, val.w, signal=val.y_names.index("lq"))
+    cm = confusion_matrix(y_pred, val.y, val.w, signal=val.y_names.index("LQ"))
 
     fig2, ax2 = plt.subplots(figsize=(12, 8))
     sns.heatmap(cm.cpu(), annot=True, cmap="Blues", cbar=True,  ax=ax2, xticklabels=["Signal", "Background"], yticklabels=["Signal", "Background"], fmt=".2f")

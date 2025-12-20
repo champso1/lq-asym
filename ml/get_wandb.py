@@ -32,7 +32,7 @@ def get_wandb(trn, val, model, config, tags=None):
 
     wandb.define_metric("val/f1", step_metric="epoch", summary="max")
 
-    wandb.define_metric("val/auc_w/lq", step_metric="epoch", summary="max")
+    wandb.define_metric("val/auc_w/LQ", step_metric="epoch", summary="max")
     wandb.define_metric("val/auc_w/mean", step_metric="epoch", summary="max")
     wandb.define_metric("sig/significance", step_metric="epoch", summary="max")
 

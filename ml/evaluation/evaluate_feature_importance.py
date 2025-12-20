@@ -13,7 +13,7 @@ def evaluate_feature_importance(model: Model, val: Data, device="cpu", wandb_run
 
     torch.manual_seed(0)
 
-    ig, fig1 = feature_importance(model, val, val.y_names.index("lq"), val.x_names, device=device, num_examples=num_examples, plot="horizontal", return_fig=True)
+    ig, fig1 = feature_importance(model, val, val.y_names.index("LQ"), val.x_names, device=device, num_examples=num_examples, plot="horizontal", return_fig=True)
     fig1.tight_layout()
 
     # Take top 20:

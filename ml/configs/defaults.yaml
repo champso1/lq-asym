@@ -1,6 +1,6 @@
 seed: 0
 use_wandb: True
-project_name: lq-asym
+project_name: fastframes2
 data_path: data_processing/output
 
 use_binary: False
@@ -21,8 +21,9 @@ use_half: True
 
 repeat: 1
 
-batch_size: 1024
-epochs: 100
+batch_size: 256
+epochs: 50
+
 
 tags:
   - experiment

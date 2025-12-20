@@ -38,8 +38,7 @@ def read_region(region: str,
                 if len(f) == 0:
                     continue
 
-                arrays = f.arrays([*train_features, "weight", "selected", "eventNumber"],
-                                  cut=None, aliases={"weight": weight, "selected": cut_expr})
+                arrays = f.arrays([*train_features, "weight", "selected"], cut=None, aliases={"weight": "weight_total_NOSYS", "selected": cut_expr})
 
                 if len(arrays) == 0:
                     continue

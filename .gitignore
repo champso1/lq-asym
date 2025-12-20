@@ -1,0 +1,11 @@
+**/__pycache__
+wandb
+ml/artifacts
+ml/checkpoints
+**/backup
+**/output
+**/outputs
+data_processing/output-*
+**/.archive
+new
+limits

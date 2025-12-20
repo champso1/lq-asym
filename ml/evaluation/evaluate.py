@@ -33,7 +33,7 @@ class evaluate:
         device="cpu",
     ):
         if priority is None:
-            priority = ["val/auc_w/lq"]
+            priority = ["val/auc_w/LQ"]
 
         self.metrics = dict()
         self.metrics["epoch"] = epoch
@@ -200,7 +200,7 @@ class evaluate:
             + f"val/acc/bin={self.metrics['val/acc/bin']:.2%}, "
             + f"val/f1={self.metrics['val/f1']:.2%}, "
             + f"AUC (mean)={self.metrics['val/auc_w/mean']:.3f}, "
-            + f"AUC (lq)={self.metrics['val/auc_w/lq']:.3f}, "
+            + f"AUC (LQ)={self.metrics['val/auc_w/LQ']:.3f}, "
             + f"significance={self.metrics['sig/significance']:.2f} "
             + f"({self.metrics['sig/significance_percent']:.2%} of max possible "
             + f"({self.metrics['sig/max_significance']:.2f})) @ threshold={self.metrics['sig/threshold']:.2f}"

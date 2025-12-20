@@ -1,4 +1,4 @@
-uproot
+uproot==5.4.1
 wandb
 argparse
 tqdm
@@ -7,3 +7,4 @@ autorootcwd
 scikit-learn
 matplotlib
 seaborn
+torch

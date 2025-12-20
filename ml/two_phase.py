@@ -29,8 +29,8 @@ if __name__ == "__main__":
     run = get_run(config.run_name)
     max_auc = float("-inf")
     start_epoch = 0
-    history = run.history(keys=["val/auc_w/lq", "epoch"])
-    for epoch, auc in zip(history["epoch"], history["val/auc_w/lq"]):
+    history = run.history(keys=["val/auc_w/LQ", "epoch"])
+    for epoch, auc in zip(history["epoch"], history["val/auc_w/LQ"]):
         if auc > max_auc:
             max_auc = auc
             start_epoch = epoch
@@ -90,7 +90,7 @@ if __name__ == "__main__":
         model,
         trn,
         val,
-        "lq",
+        "LQ",
         device=config.device,
         use_tqdm=True,
         F=F,
