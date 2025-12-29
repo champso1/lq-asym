@@ -5,23 +5,30 @@ features: ./features/all.yaml
 categorical_features: ./features/categorical.yaml
 array_features: ./features/array.yaml
 invalid_values: ./features/invalid.yaml
-n_jets: 1
+n_jets: 2
 samples:
-  - WtZ
-  - ttWZ
+  - ttZZ
   - ttgamma
-  - VV
-  - SingleTop
+  - tZ
+  - VH
+  - ttbar
+  - fourTop
+  - Zjets
+  - Wjets
   - ttW
-  - ttZ
+  - ttWZ
+  - WtZ
+  - ttHH
+  - FakeTau_ttbar
+  - threeTop
+  - LQ
+  - FakeTau_Zjets
+  - ttWH
   - ttH
   - Vgamma
-  - threeTop
-  - ttWH
-  - tZ
   - ttWW
-  - LQ
-  - ttZZ
-  - ttHH
-  - fourTop
-  - VH
+  - VVV
+  - ttZ
+  - FakeTau_Wjets
+  - VV
+  - SingleTop
