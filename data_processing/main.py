@@ -18,9 +18,9 @@ for f in training_features:
 categorical = read_yaml(config["categorical_features"])
 invalid_values = read_yaml(config["invalid_values"])
 array_features = read_yaml(config["array_features"])
-categorical = [f for f in categorical if f in training_features]
+categorical = [f for f in categorical if f in training_features] if categorical is not None else []
 invalid = {key: value for key, value in invalid_values.items() if key in training_features}
-array_features = [f for f in array_features if f in training_features]
+array_features = [f for f in array_features if f in training_features] if array_features is not None else []
 
 # Open all the files and read data into awkward array. Also read the weight. Then convert awkward arrays to numpy
 data = read_region(

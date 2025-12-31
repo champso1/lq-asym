@@ -12,9 +12,9 @@
 - dEta_maxMjj_frwdjet_NOSYS
 - lep_deltaz0sinTheta_0_NOSYS
 - DeltaR_min_lep_jet_fwd_NOSYS
-- max_DeltaR_LJ_1_NOSYS
+- minDeltaR_LJ_1_NOSYS
 - lep_d0sig_1_NOSYS
-- nbjets77_NOSYS
+- nbJets77_NOSYS
 - min_AbsDeltaPhi_bjet_MET_NOSYS
 - EtaZeppen_tau_NOSYS
 - reco_Hplus_visH_hadW_mass_NOSYS

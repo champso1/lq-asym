@@ -1,8 +1,8 @@
-source_base_dir: ~/CERN/ntuples/fastframes-new      # no trailing '/'!!!
-target_base_dir: ~/CERN/lq-asym-new/friend_ntuples/output/friend/    # yes trailing '/'!!!
-model_path: ~/CERN/lq-asym-new/friend_ntuples/model.py
-trex_config: ./configs/training-2500.config
-region: tau-pt-0
+source_base_dir: ~\\Dropbox\\CERN\ntuples\\fastframes      # no trailing '/'!!!
+target_base_dir: ~\\Documents\\coding\\lq-asym/friend_ntuples/output/friend/    # yes trailing '/'!!!
+model_path: ~\\Documents\\coding\\lq-asym/friend_ntuples/model.py
+trex_config: ./configs/training.config
+region: taus-pt-0
 branch_name: probs_LQ
-batch_size: 5000
-model: transformers/transformer-3
+batch_size: 1024
+model: resnets/resnet-6

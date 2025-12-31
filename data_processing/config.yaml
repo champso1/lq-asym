@@ -1,5 +1,5 @@
 trex_config: ./configs/training.config
-region: "tau-pt-0"
+region: "taus-pt-0"
 output_path: "output"
 features: ./features/all.yaml
 categorical_features: ./features/categorical.yaml
