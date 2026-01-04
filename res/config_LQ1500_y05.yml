@@ -1,0 +1,423 @@
+% ------------- %
+% ---- JOB ---- %
+% ------------- %
+
+Job: "LQ_trex_m1500_y05"
+  CmeLabel: "13 TeV"
+  POI: mu-signal
+  ReadFrom: NTUP
+  OutputDir: /home/iutkarsh/LQ_analysis
+  NtuplePath: /home/iutkarsh/fastframes_out
+  Label: "LQ"
+  LumiLabel: "140 fb^{-1}"
+  Lumi: 1.0
+  MCweight: "weight_total_NOSYS"
+  NtupleName: "reco"
+  MCstatThreshold: 0.01
+  HistoChecks: NOCRASH
+  SplitHistoFiles: TRUE
+  ImageFormat: png
+  DoSignalRegionsPlot: TRUE
+  RatioYmin: 0.
+  RatioYmax: 2.0
+  ReplacementFile: /home/iutkarsh/LQ_analysis/replacements/replacement-friend.txt
+  FriendPath: /home/iutkarsh/friend_ntuples
+  DebugLevel: 2
+  BlindingThreshold: 1
+  #SeparationPlot: FakeMu, FakeEl, TauFakes
+  PlotOptions: "YIELDS"
+	#Selection: "(leps_IFFtype_0_NOSYS == 2 || leps_IFFtype_0_NOSYS == 4 || leps_IFFtype_0_NOSYS == 7) && (leps_IFFtype_1_NOSYS == 2 || leps_IFFtype_1_NOSYS == 4 || leps_IFFtype_1_NOSYS == 7)"
+  # GetChi2: TRUE
+  POIPrecision: 3
+
+% --------- %
+% -- FIT -- %
+% --------- %
+
+Fit: "fit"
+  FitType: SPLUSB
+  FitRegion: CRSR
+  POIAsimov: 1
+  # FitBlind: FALSE
+  # BlindedParameters: "mu-signal"
+
+% -------------------- %
+% ------ LIMIT ------- %
+% -------------------- %
+
+Limit: "limit"
+	LimitType: ASYMPTOTIC
+	#LimitBlind: FALSE
+
+% ------------------------- %
+% ----- SIGNIFICANCE ------ %
+% ------------------------- %
+
+Significance: "significance"
+ SignificanceType: ASYMPTOTIC
+ POIAsimov: 1
+ #SignificanceBlind: FALSE
+
+% ----------- %
+% - REGIONS - %
+% ----------- %
+
+
+Region: "SR"
+	Type: SIGNAL
+	Variable: m_eff_NOSYS/1e6,10,0,8
+	VariableTitle: "Effective Mass[TeV]"
+	Label: "$2lSS1\tau 4j1bj$"
+	DataType: DATA
+	Selection: "leps_charge_0_NOSYS*leps_charge_1_NOSYS == 1 && jets_n_NOSYS > 3 && nbJets77_NOSYS > 0" # && m_eff_NOSYS > 1.5e6"
+
+# Region: "lowJetCR"
+# 	Type: CONTROL
+# 	Variable: taus_pt_0_NOSYS/1e3,10,20,100
+# 	VariableTitle: "Tau Transverse Momentum[GeV]"
+# 	Label: "$2lSS1\tau <4j 0bj$"
+# 	DataType: DATA
+# 	Selection: "m_eff_NOSYS < 1.5e6 && leps_charge_0_NOSYS*leps_charge_1_NOSYS == 1 && jets_n_NOSYS <= 3 && nbJets77_NOSYS == 0"
+
+# Region: "lowJetbJetCRMu"
+# 	Type: CONTROL
+# 	Variable: taus_pt_0_NOSYS/1e3,10,20,150
+# 	VariableTitle: "Tau Transverse Momentum[GeV]"
+# 	Label: "$2lSS1\tau <4j1bj\mu_f$"
+# 	DataType: DATA
+# 	Selection: "m_eff_NOSYS < 1.5e6 && !mu_select_HighPt_NonIso_NOSYS && leps_charge_0_NOSYS*leps_charge_1_NOSYS == 1 && jets_n_NOSYS <= 3 && nbJets77_NOSYS > 0"
+
+# Region: "lowJetbJetCREl"
+# 	Type: CONTROL
+# 	Variable: taus_pt_0_NOSYS/1e3,10,20,150
+# 	VariableTitle: "Tau Transverse Momentum[GeV]"
+# 	Label: "$2lSS1\tau <4j1bje_f$"
+# 	DataType: DATA
+# 	Selection: "m_eff_NOSYS < 1.5e6 && !el_select_TightDNN_NonIso_NOSYS && leps_charge_0_NOSYS*leps_charge_1_NOSYS == 1 && jets_n_NOSYS <= 3 && nbJets77_NOSYS > 0"
+
+# Region: "OSlowJetCR"
+# 	Type: CONTROL
+# 	Variable: leps_eta_0_NOSYS,50,-2.5,2.5
+# 	VariableTitle: "Leading Lepton \eta"
+# 	Label: "2lOS1\tau <4j"
+# 	DataType: DATA
+# 	Selection: "m_eff_NOSYS < 1.5e6 && leps_charge_0_NOSYS*leps_charge_1_NOSYS == -1 && jets_n_NOSYS <= 3"
+
+# Region: "VAL"
+# 	Type: VALIDATION
+# 	Variable: m_eff_NOSYS/1e6,10,0.3,1.5
+# 	VariableTitle: "Effective Mass[TeV]"
+# 	Label: "$2lSS1\tau 4j1bjVAL$"
+# 	DataType: DATA
+# 	Selection: "leps_charge_0_NOSYS*leps_charge_1_NOSYS == 1 && jets_n_NOSYS > 3 && nbJets77_NOSYS > 0 && m_eff_NOSYS < 1.5e6"
+
+% ----------- %
+% - SAMPLES - %
+% ----------- %
+
+# Sample: "Data"
+# 	Title: "$Data\:Run\:2$"
+# 	Type: DATA
+# 	NtupleFiles: XXX_Data_0_2015_samples, XXX_Data_0_2016_samples, XXX_Data_0_2017_samples, XXX_Data_0_2018_samples
+# 	IgnoreSelection: "(leps_IFFtype_0_NOSYS == 2 || leps_IFFtype_0_NOSYS == 4 || leps_IFFtype_0_NOSYS == 7) && (leps_IFFtype_1_NOSYS == 2 || leps_IFFtype_1_NOSYS == 4 || leps_IFFtype_1_NOSYS == 7)"
+# 	UseFriend: TRUE
+
+Sample: "LQ"
+	FillColor: 634
+	HistoFile: LQ
+	LineColor: 634
+  Title: LQ 1.5TeV y0.5
+	Type: SIGNAL
+  NtupleFiles: XXX_LQ1500_y05_samples
+	#UseFriend: TRUE
+
+Sample: "ttbar"
+ 	FillColor: 418
+ 	HistoFile: ttbar
+ 	LineColor: 418
+ 	Title: t\bar{t}
+ 	Type: BACKGROUND
+	NtupleFiles: XXX_ttbar_samples
+	#UseFriend: TRUE
+
+Sample: "ttH"
+	FillColor: 800
+	HistoFile: ttH
+	LineColor: 800
+	Title: ttH
+	Type: BACKGROUND
+	NtupleFiles: XXX_ttH_samples
+	#UseFriend: TRUE
+
+Sample: "ttW"
+	FillColor: 864
+	HistoFile: ttW
+	LineColor: 864
+	Title: ttW
+	Type: BACKGROUND
+	NtupleFiles: XXX_ttW_samples
+	#UseFriend: TRUE
+
+Sample: "ttgamma"
+	FillColor: 823
+	HistoFile: ttgamma
+	LineColor: 823
+	Title: tt\gamma
+	Type: BACKGROUND
+	NtupleFiles: XXX_ttgamma_samples
+	#Group: Others
+
+# Sample: "FakeEl"
+# 	FillColor: 799
+# 	LineColor: 799
+# 	Title: "Fake \: e"
+# 	Type: BACKGROUND
+# 	IgnoreSelection: "(leps_IFFtype_0_NOSYS == 2 || leps_IFFtype_0_NOSYS == 4 || leps_IFFtype_0_NOSYS == 7) && (leps_IFFtype_1_NOSYS == 2 || leps_IFFtype_1_NOSYS == 4 || leps_IFFtype_1_NOSYS == 7)"
+# 	Selection: "(leps_flav_0_NOSYS == 0 && !(leps_IFFtype_0_NOSYS == 2 || leps_IFFtype_0_NOSYS == 4 || leps_IFFtype_0_NOSYS == 7) && (leps_IFFtype_1_NOSYS == 2 || leps_IFFtype_1_NOSYS == 4 || leps_IFFtype_1_NOSYS == 7)) || ((leps_IFFtype_0_NOSYS == 2 || leps_IFFtype_0_NOSYS == 4 || leps_IFFtype_0_NOSYS == 7) && leps_flav_1_NOSYS == 0 && !(leps_IFFtype_1_NOSYS == 2 || leps_IFFtype_1_NOSYS == 4 || leps_IFFtype_1_NOSYS == 7))"
+# 	NtupleFiles: XXX_ttbar_samples, XXX_ttH_samples, XXX_ttW_samples, XXX_SingleTop_samples, XXX_tZ_samples, XXX_ttgamma_samples
+
+# Sample: "FakeMu"
+# 	FillColor: 897
+# 	LineColor: 897
+# 	Title: "Fake \: \mu"
+# 	Type: BACKGROUND
+# 	IgnoreSelection: "(leps_IFFtype_0_NOSYS == 2 || leps_IFFtype_0_NOSYS == 4 || leps_IFFtype_0_NOSYS == 7) && (leps_IFFtype_1_NOSYS == 2 || leps_IFFtype_1_NOSYS == 4 || leps_IFFtype_1_NOSYS == 7)"
+# 	Selection: "(leps_flav_0_NOSYS == 1 && !(leps_IFFtype_0_NOSYS == 2 || leps_IFFtype_0_NOSYS == 4 || leps_IFFtype_0_NOSYS == 7) && (leps_IFFtype_1_NOSYS == 2 || leps_IFFtype_1_NOSYS == 4 || leps_IFFtype_1_NOSYS == 7)) || ((leps_IFFtype_0_NOSYS == 2 || leps_IFFtype_0_NOSYS == 4 || leps_IFFtype_0_NOSYS == 7) && leps_flav_1_NOSYS == 1 && !(leps_IFFtype_1_NOSYS == 2 || leps_IFFtype_1_NOSYS == 4 || leps_IFFtype_1_NOSYS == 7))"
+# 	NtupleFiles: XXX_ttbar_samples, XXX_ttH_samples, XXX_ttW_samples, XXX_SingleTop_samples, XXX_tZ_samples, XXX_ttgamma_samples
+
+# Sample: "DoubleFake"
+# 	FillColor: 867
+# 	LineColor: 867
+# 	Title: "Double Fake"
+# 	Type: BACKGROUND
+# 	IgnoreSelection: "(leps_IFFtype_0_NOSYS == 2 || leps_IFFtype_0_NOSYS == 4 || leps_IFFtype_0_NOSYS == 7) && (leps_IFFtype_1_NOSYS == 2 || leps_IFFtype_1_NOSYS == 4 || leps_IFFtype_1_NOSYS == 7)"
+# 	Selection: "!(leps_IFFtype_0_NOSYS == 2 || leps_IFFtype_0_NOSYS == 4 || leps_IFFtype_0_NOSYS == 7) && !(leps_IFFtype_1_NOSYS == 2 || leps_IFFtype_1_NOSYS == 4 || leps_IFFtype_1_NOSYS == 7)"
+# 	NtupleFiles: XXX_ttbar_samples, XXX_ttH_samples, XXX_ttW_samples, XXX_SingleTop_samples, XXX_tZ_samples, XXX_ttgamma_samples
+
+
+# Sample: "FakelPlusTau"
+# 	FillColor: 883
+# 	LineColor: 883
+# 	Title: "Fake \: l+\tau"
+# 	Type: BACKGROUND
+# 	IgnoreSelection: "(leps_IFFtype_0_NOSYS == 2 || leps_IFFtype_0_NOSYS == 4 || leps_IFFtype_0_NOSYS == 7) && (leps_IFFtype_1_NOSYS == 2 || leps_IFFtype_1_NOSYS == 4 || leps_IFFtype_1_NOSYS == 7)"
+# 	Selection: "!(leps_IFFtype_0_NOSYS == 2 || leps_IFFtype_0_NOSYS == 4 || leps_IFFtype_0_NOSYS == 7) || !(leps_IFFtype_1_NOSYS == 2 || leps_IFFtype_1_NOSYS == 4 || leps_IFFtype_1_NOSYS == 7) && !tau_truth_IsHadronicTau"
+# 	NtupleFiles: XXX_FakeTau_ttbar_samples, XXX_FakeTau_Wjets_samples, XXX_FakeTau_Zjets_samples
+
+# Sample: "FakeTau"
+# 	FillColor: 824
+# 	LineColor: 824
+# 	Title: "Fake \: \tau"
+# 	Type: BACKGROUND
+# 	#IgnoreSelection: "(leps_IFFtype_0_NOSYS == 2 || leps_IFFtype_0_NOSYS == 4 || leps_IFFtype_0_NOSYS == 7) && (leps_IFFtype_1_NOSYS == 2 || leps_IFFtype_1_NOSYS == 4 || leps_IFFtype_1_NOSYS == 7)"
+# 	Selection: !tau_truth_IsHadronicTau
+# 	NtupleFiles: XXX_ttbar_samples, XXX_SingleTop_samples, XXX_ttW_samples, XXX_ttH_samples, XXX_tZ_samples, XXX_ttgamma_samples, XXX_FakeTau_ttbar_samples, XXX_FakeTau_Wjets_samples, XXX_FakeTau_Zjets_samples
+
+# Sample: "Fakes"
+# 	FillColor: 883
+# 	LineColor: 883
+# 	Title: "Fakes"
+# 	Type: BACKGROUND
+# 	IgnoreSelection: "(leps_IFFtype_0_NOSYS == 2 || leps_IFFtype_0_NOSYS == 4 || leps_IFFtype_0_NOSYS == 7) && (leps_IFFtype_1_NOSYS == 2 || leps_IFFtype_1_NOSYS == 4 || leps_IFFtype_1_NOSYS == 7)"
+# 	Selection: "!(leps_IFFtype_0_NOSYS == 2 || leps_IFFtype_0_NOSYS == 4 || leps_IFFtype_0_NOSYS == 7) || !(leps_IFFtype_1_NOSYS == 2 || leps_IFFtype_1_NOSYS == 4 || leps_IFFtype_1_NOSYS == 7) || !tau_truth_IsHadronicTau"
+# 	NtupleFiles: XXX_LQ_samples, XXX_ttbar_samples, XXX_SingleTop_samples, XXX_ttW_samples, XXX_ttH_samples, XXX_tZ_samples, XXX_ttgamma_samples, XXX_FakeTau_ttbar_samples, XXX_FakeTau_Wjets_samples, XXX_FakeTau_Zjets_samples
+# 	#UseFriend: TRUE
+
+
+Sample: "Wjets"
+	FillColor: 32
+	LineColor: 32
+	Title: Wjets
+	Type: BACKGROUND
+	NtupleFiles: XXX_Wjets_samples
+	Group: Others
+
+Sample: "Zjets"
+	FillColor: 33
+	LineColor: 33
+	Title: Zjets
+	Type: BACKGROUND
+	NtupleFiles: XXX_Zjets_samples
+	Group: Others
+
+
+Sample: "ttZ"
+	FillColor: 5
+	HistoFile: ttZ
+	LineColor: 5
+	Title: ttZ
+	Type: BACKGROUND
+	NtupleFiles: XXX_ttZ_samples
+	Group: Others
+
+Sample: "VV"
+	FillColor: 9
+	HistoFile: VV
+	LineColor: 9
+	Title: VV
+	Type: BACKGROUND
+	NtupleFiles: XXX_VV_samples
+	Group: Others
+
+Sample: "SingleTop"
+	FillColor: 602
+	HistoFile: SingleTop
+	LineColor: 602
+	Title: SingleTop
+	Type: BACKGROUND
+	NtupleFiles: XXX_SingleTop_samples
+	Group: Others
+
+Sample: "tZ"
+	FillColor: 613
+	HistoFile: tZ
+	LineColor: 613
+	Title: tZ
+	Type: BACKGROUND
+	NtupleFiles: XXX_tZ_samples
+	Group: Others
+
+Sample: "WtZ"
+	FillColor: 31
+	HistoFile: WtZ
+	LineColor: 31
+	Title: WtZ
+	Type: BACKGROUND
+	NtupleFiles: XXX_WtZ_samples
+	Group: Others
+
+Sample: "Vgamma"
+	FillColor: 11
+	HistoFile: Vgamma
+	LineColor: 11
+	Title: V\gamma
+	Type: BACKGROUND
+	NtupleFiles: XXX_Vgamma_samples
+	Group: Others
+
+Sample: "VH"
+	FillColor: 20
+	LineColor: 20
+	Title: "VH"
+	Type: BACKGROUND
+	NtupleFiles: XXX_VH_samples
+	Group: Others
+
+Sample: "ThreeTop"
+	FillColor: 20
+	LineColor: 20
+	Title: ttt
+	Type: BACKGROUND
+	NtupleFiles: XXX_threeTop_samples
+	Group: Others
+
+Sample: "FourTop"
+	FillColor: 881
+	LineColor: 881
+	Title: tttt
+	Type: BACKGROUND
+	NtupleFiles: XXX_fourTop_samples
+	Group: Others
+
+Sample: "ttWW"
+	FillColor: 429
+	LineColor: 429
+	Title: ttWW
+	Type: BACKGROUND
+	NtupleFiles: XXX_ttWW_samples
+	Group: Others
+
+Sample: "ttWZ"
+	FillColor: 22
+	LineColor: 22
+	Title: ttWZ
+	Type: BACKGROUND
+	NtupleFiles: XXX_ttWZ_samples
+	Group: Others
+
+Sample: "ttHH"
+	FillColor: 21
+	LineColor: 21
+	Title: ttHH
+	Type: BACKGROUND
+	NtupleFiles: XXX_ttHH_samples
+	Group: Others
+
+Sample: "ttZZ"
+	FillColor: 22
+	LineColor: 22
+	Title: ttZZ
+	Type: BACKGROUND
+	NtupleFiles: XXX_ttZZ_samples
+	Group: Others
+
+Sample: "ttWH"
+	FillColor: 22
+	LineColor: 22
+	Title: ttWH
+	Type: BACKGROUND
+	NtupleFiles: XXX_ttWH_samples
+	Group: Others
+
+Sample: "VVV"
+	FillColor: 22
+	LineColor: 22
+	Title: VVV
+	Type: BACKGROUND
+	NtupleFiles: XXX_VVV_samples
+	Group: Others
+
+Sample: "Other"
+  FillColor: 808
+  LineColor: 808
+  Title: Other
+  NtupleFiles: XXX_ttZZ_samples, XXX_ttWH_samples, XXX_ttHH_samples, XXX_ttWZ_samples, XXX_threeTop_samples, XXX_Vgamma_samples, XXX_VV_samples, XXX_ttZ_samples, XXX_tZ_samples, XXX_fourTop_samples, XXX_ttWW_samples, XXX_SingleTop_samples, XXX_ttgamma_samples
+  # UseFriend: TRUE
+
+% --------------------- %
+% ---- NORM FACTOR ---- %
+% --------------------- %
+
+NormFactor: "mu-signal"
+	Max: 100
+ 	Min: -100
+ 	Nominal: 1
+ 	Samples: LQ
+	#Constant: TRUE
+ 	Title: \mu(LQ)
+
+# NormFactor: "lambda-fake-tau"
+# 	Max: 100
+# 	Min: -100
+# 	Nominal: 1
+# 	Samples: FakeTau
+# 	Title: \lambda(\tau_f )
+
+# NormFactor: "lambda-fake-el"
+# 	Max: 100
+# 	Min: -100
+# 	Nominal: 1
+# 	Samples: FakeEl
+# 	Title: \lambda(e_f )
+
+# NormFactor: "lambda-fake-mu"
+# 	Max: 100
+# 	Min: -100
+# 	Nominal: 1
+# 	Samples: FakeMu
+# 	Title: \lambda(\mu_f )
+
+# NormFactor: "lambda-fake-l-tau"
+# 	Max: 100
+# 	Min: -100
+# 	Nominal: 1
+# 	Samples: FakelPlusTau
+# 	Title: \lambda(l_f + \tau_f)
+
+# NormFactor: "lambda-double-fake"
+# 	Max: 100
+# 	Min: -100
+# 	Nominal: 1
+# 	Samples: DoubleFake
+# 	Title: \lambda(l_fl_f)
+

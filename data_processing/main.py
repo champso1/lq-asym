@@ -3,7 +3,6 @@ import autorootcwd  # Do not delete - adds the root of the project to the path
 from data_processing.processing import read_region, process_data, save_data, ConfigParser, read_yaml
 from data_processing.check import check
 
-
 # Read the config file
 config = read_yaml("config")
 
