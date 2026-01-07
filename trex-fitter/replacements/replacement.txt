@@ -1,8 +1,8 @@
 ##==============
 ## Ntuple Paths
 ##==============
-XXX_NtuplePaths: D:/Documents/Ntuples/fastframes
-XXX_FriendPaths: D:/Documents/lq-asym/friend_ntuples/output/friend/resnet-6
+XXX_NtuplePaths: /home/data/ntuples/fastframes
+XXX_FriendPaths: /home/data/ntuples/fastframes
 
 ##==================
 ## Selection
