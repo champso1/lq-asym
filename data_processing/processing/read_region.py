@@ -10,16 +10,17 @@ from .array_converter import convert_object_features, Data
 from .config_parser import ConfigParser
 
 
-def read_region(region: str,
+def read_region(region: str, # config["region"] = "taus-pt-0"
                 parser: ConfigParser,
-                train_features: list[str],
-                object_features: list[str],
-                samples=None,
-                nested_size=6):
+                train_features: list[str], # all features
+                object_features: list[str],  # should be None
+                samples=None, # list of samples, like 'ttH', etc.
+                nested_size=6): # should be just 1 always
 
     if samples is None:
         samples = parser.samples
 
+    # since object_features=None, this should just be equal to train_features?
     non_object_features = list(set(train_features) - set(object_features))
 
     process_data = {}

@@ -1,3 +1,9 @@
 autoroot
 autorootcwd
 pyyaml
+python-lsp-server
+pyflakes
+tqdm
+numpy
+awkward
+uproot
