@@ -1,0 +1,145 @@
+<!--
+This xml file created automatically on: 
+2026-5-30
+-->
+<!DOCTYPE Channel  SYSTEM 'HistFactorySchema.dtd'>  
+
+  <Channel Name="SR" InputFile="" >
+
+    <Data HistoName="" InputFile="" HistoPath=""  /> 
+
+    <StatErrorConfig RelErrorThreshold="0.01" ConstraintType="Poisson" /> 
+
+    <Sample Name="ttH"  HistoPath="SR/ttH/nominal/"  HistoName="SR_ttH_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="FakeTau"  HistoPath="SR/FakeTau/nominal/"  HistoName="SR_FakeTau_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="FakeEl"  HistoPath="SR/FakeEl/nominal/"  HistoName="SR_FakeEl_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="FakeMu"  HistoPath="SR/FakeMu/nominal/"  HistoName="SR_FakeMu_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="FakeTauLep"  HistoPath="SR/FakeTauLep/nominal/"  HistoName="SR_FakeTauLep_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttZZ"  HistoPath="SR/ttZZ/nominal/"  HistoName="SR_ttZZ_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttgamma"  HistoPath="SR/ttgamma/nominal/"  HistoName="SR_ttgamma_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="tZ"  HistoPath="SR/tZ/nominal/"  HistoName="SR_tZ_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="VH"  HistoPath="SR/VH/nominal/"  HistoName="SR_VH_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttbar"  HistoPath="SR/ttbar/nominal/"  HistoName="SR_ttbar_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="fourTop"  HistoPath="SR/fourTop/nominal/"  HistoName="SR_fourTop_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="Zjets"  HistoPath="SR/Zjets/nominal/"  HistoName="SR_Zjets_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="Wjets"  HistoPath="SR/Wjets/nominal/"  HistoName="SR_Wjets_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttW"  HistoPath="SR/ttW/nominal/"  HistoName="SR_ttW_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttWZ"  HistoPath="SR/ttWZ/nominal/"  HistoName="SR_ttWZ_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="WtZ"  HistoPath="SR/WtZ/nominal/"  HistoName="SR_WtZ_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttHH"  HistoPath="SR/ttHH/nominal/"  HistoName="SR_ttHH_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="threeTop"  HistoPath="SR/threeTop/nominal/"  HistoName="SR_threeTop_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttWH"  HistoPath="SR/ttWH/nominal/"  HistoName="SR_ttWH_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="Vgamma"  HistoPath="SR/Vgamma/nominal/"  HistoName="SR_Vgamma_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttWW"  HistoPath="SR/ttWW/nominal/"  HistoName="SR_ttWW_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="VVV"  HistoPath="SR/VVV/nominal/"  HistoName="SR_VVV_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttZ"  HistoPath="SR/ttZ/nominal/"  HistoName="SR_ttZ_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="VV"  HistoPath="SR/VV/nominal/"  HistoName="SR_VV_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="SingleTop"  HistoPath="SR/SingleTop/nominal/"  HistoName="SR_SingleTop_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="LQ"  HistoPath="SR/LQ/nominal/"  HistoName="SR_LQ_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_SR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+      <NormFactor Name="mu_LQ"  Val="1"  High="100"  Low="-100"   /> 
+    </Sample>
+
+
+
+  </Channel>  

@@ -30,7 +30,7 @@ def plot_roc(model: Model, val: Data, class_idx=None, device="cpu", batch_size=1
 
         # Let's plot the ROC curves for all the classes
         fpr, tpr, _ = roc_curve(val.y, probs[:, class_idx], pos_label=class_idx, sample_weight=val.w if use_weights else None)
-        auc = np.trapz(tpr, fpr)
+        auc = np.trapezoid(tpr, fpr)
         rocs.append((auc, fpr, tpr, val.y_names[class_idx]))
 
     # Sort the ROC curves by AUC

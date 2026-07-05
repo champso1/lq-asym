@@ -1,0 +1,71 @@
+- Region: p(y = lq | x)
+  Samples:
+    - Sample: LQ
+      Yield: 10800.945533447113
+      Error: 1.3673232009298544
+    - Sample: ttgamma
+      Yield: 16.395498168283993
+      Error: 0.2933689947786766
+    - Sample: ttbar
+      Yield: 86.29785094347751
+      Error: 1.5415786498044783
+    - Sample: ttW
+      Yield: 32.71648957391566
+      Error: 0.5573067963695197
+    - Sample: ttH
+      Yield: 34.825563893812124
+      Error: 0.6115671078518603
+    - Sample: ttZ
+      Yield: 29.687945114394793
+      Error: 0.5219469701868606
+    - Sample: SingleTop
+      Yield: 26.738140412921375
+      Error: 0.4699052973427945
+    - Sample: ttZZ
+      Yield: 0.11875887424970515
+      Error: 0.0019551308951945147
+    - Sample: tZ
+      Yield: 2.844161961553797
+      Error: 0.05156219869748803
+    - Sample: VH
+      Yield: 0.004669702140732097
+      Error: 8.480358962634277e-05
+    - Sample: fourTop
+      Yield: 2.900222310309145
+      Error: 0.04348920427581935
+    - Sample: Zjets
+      Yield: 0.16995407685378564
+      Error: 0.0031065914145325933
+    - Sample: Wjets
+      Yield: 4.9999999999999996e-06
+      Error: 7.990574020129162e-08
+    - Sample: ttWZ
+      Yield: 0.30212246593613856
+      Error: 0.004815789577980633
+    - Sample: WtZ
+      Yield: 5.213541677744944
+      Error: 0.08861577551404637
+    - Sample: ttHH
+      Yield: 0.1274034979530443
+      Error: 0.0021561839461624334
+    - Sample: threeTop
+      Yield: 0.331720961841861
+      Error: 0.004897524246385331
+    - Sample: ttWH
+      Yield: 0.20552176708309142
+      Error: 0.0033851036926845104
+    - Sample: Vgamma
+      Yield: 8.468117067104362
+      Error: 0.15381875557012248
+    - Sample: ttWW
+      Yield: 2.148621036161417
+      Error: 0.033808442498089696
+    - Sample: VVV
+      Yield: 0.39779641770967566
+      Error: 0.005982434602084347
+    - Sample: VV
+      Yield: 2.191167957582177
+      Error: 0.03869106077315462
+    - Sample: Total
+      Yield: 11053.030806328139
+      Error: 4.884509132887026

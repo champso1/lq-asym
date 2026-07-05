@@ -1,0 +1,71 @@
+- Region: 2lSS 1#tau
+  Samples:
+    - Sample: ttgamma
+      Yield: 58.49673217936925
+      Error: 6.903347144016154e-08
+    - Sample: ttbar
+      Yield: 252.64533975956243
+      Error: 6.90449306279462e-08
+    - Sample: ttW
+      Yield: 56.80116634399694
+      Error: 6.90449375037906e-08
+    - Sample: ttH
+      Yield: 100.57303775082397
+      Error: 6.904494368870013e-08
+    - Sample: ttZ
+      Yield: 72.97109417334529
+      Error: 6.904494190365599e-08
+    - Sample: SingleTop
+      Yield: 83.43332457019683
+      Error: 6.90449375037906e-08
+    - Sample: Vgamma
+      Yield: 29.15700096394092
+      Error: 6.904492183080313e-08
+    - Sample: ttZZ
+      Yield: 0.33600452289328936
+      Error: 6.904207520018795e-08
+    - Sample: VH
+      Yield: 0.014983989187533197
+      Error: 6.89667061136504e-08
+    - Sample: fourTop
+      Yield: 9.607538172115422
+      Error: 6.904485826302266e-08
+    - Sample: Zjets
+      Yield: 0.787716384396765
+      Error: 6.90434618704308e-08
+    - Sample: Wjets
+      Yield: 0.008263988065734739
+      Error: 6.889489020751036e-08
+    - Sample: ttWZ
+      Yield: 0.7456450227021194
+      Error: 6.904374817300438e-08
+    - Sample: WtZ
+      Yield: 8.487915452404065
+      Error: 6.904483868995561e-08
+    - Sample: ttHH
+      Yield: 0.4348141374871992
+      Error: 6.904272890142828e-08
+    - Sample: threeTop
+      Yield: 1.0882759675622926
+      Error: 6.904400027568087e-08
+    - Sample: ttWH
+      Yield: 0.6048790221403221
+      Error: 6.904323976080896e-08
+    - Sample: ttWW
+      Yield: 5.5311693736034675
+      Error: 6.904475228434978e-08
+    - Sample: VVV
+      Yield: 0.38840695880437087
+      Error: 6.898074315487217e-08
+    - Sample: VV
+      Yield: 5.918736849014085
+      Error: 6.904071137130976e-08
+    - Sample: tZ
+      Yield: 4.842206283221218
+      Error: 6.904470940686372e-08
+    - Sample: LQ
+      Yield: 7553.635913790519
+      Error: 5.418730978421797
+    - Sample: Total
+      Yield: 8246.510165655352
+      Error: 5.41873210632183

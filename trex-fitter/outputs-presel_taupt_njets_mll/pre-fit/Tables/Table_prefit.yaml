@@ -1,0 +1,71 @@
+- Region: 2lSS 1#tau
+  Samples:
+    - Sample: ttgamma
+      Yield: 28.42072886103536
+      Error: 9.382489877702313e-08
+    - Sample: ttbar
+      Yield: 66.13108119170901
+      Error: 9.382492171128612e-08
+    - Sample: ttW
+      Yield: 37.7786728388528
+      Error: 9.382491537185889e-08
+    - Sample: ttH
+      Yield: 57.664029611545985
+      Error: 4.033320757339196e-06
+    - Sample: ttZ
+      Yield: 39.86452045953329
+      Error: 9.38206859432528e-08
+    - Sample: SingleTop
+      Yield: 26.153032412623272
+      Error: 9.38248857385418e-08
+    - Sample: Vgamma
+      Yield: 7.036140695189478
+      Error: 9.382473803227866e-08
+    - Sample: ttZZ
+      Yield: 0.17395305833932126
+      Error: 9.381686130304348e-08
+    - Sample: VH
+      Yield: 0.008048225816602488
+      Error: 9.362718555219639e-08
+    - Sample: fourTop
+      Yield: 6.90548592698865
+      Error: 9.382476095733671e-08
+    - Sample: Zjets
+      Yield: 0.06322809823612628
+      Error: 9.379824832523817e-08
+    - Sample: Wjets
+      Yield: 1.9999999999999998e-05
+      Error: 9.38249511455482e-08
+    - Sample: ttWZ
+      Yield: 0.4125094598513322
+      Error: 9.382176696066734e-08
+    - Sample: WtZ
+      Yield: 3.7186839473810416
+      Error: 9.38245474468045e-08
+    - Sample: ttHH
+      Yield: 0.27808160167887347
+      Error: 9.381989040280517e-08
+    - Sample: threeTop
+      Yield: 0.7392267430736676
+      Error: 9.382304734572955e-08
+    - Sample: ttWH
+      Yield: 0.33909479554730204
+      Error: 9.382107761609352e-08
+    - Sample: ttWW
+      Yield: 2.6528962084665775
+      Error: 9.382438525283763e-08
+    - Sample: VVV
+      Yield: 0.07401532353900916
+      Error: 9.380467324734505e-08
+    - Sample: VV
+      Yield: 1.2237892813892517
+      Error: 9.382387780434344e-08
+    - Sample: tZ
+      Yield: 2.5739399011220927
+      Error: 9.38242951336292e-08
+    - Sample: LQ
+      Yield: 4873.902770496217
+      Error: 6.711321224713276
+    - Sample: Total
+      Yield: 5156.1139491381355
+      Error: 6.711324405004211

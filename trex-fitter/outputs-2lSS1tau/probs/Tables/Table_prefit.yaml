@@ -1,0 +1,71 @@
+- Region: p(y = lq | x)
+  Samples:
+    - Sample: LQ
+      Yield: 7553.635913790531
+      Error: 8.095139520018552
+    - Sample: ttgamma
+      Yield: 58.49673217936921
+      Error: 0.6694222187588841
+    - Sample: ttbar
+      Yield: 252.64533975956232
+      Error: 2.8914778946739608
+    - Sample: ttW
+      Yield: 56.80116634399715
+      Error: 0.6545669265177206
+    - Sample: ttH
+      Yield: 100.57303775082224
+      Error: 1.1485604973067405
+    - Sample: ttZ
+      Yield: 72.97109417334546
+      Error: 0.8328141832257988
+    - Sample: SingleTop
+      Yield: 83.4333245701968
+      Error: 0.9595527917539463
+    - Sample: ttZZ
+      Yield: 0.33600452289328864
+      Error: 0.003891102340946131
+    - Sample: tZ
+      Yield: 4.84220628322122
+      Error: 0.05550771405522006
+    - Sample: VH
+      Yield: 0.014983989187533185
+      Error: 0.00017228260226117537
+    - Sample: fourTop
+      Yield: 9.607538172115554
+      Error: 0.11432988813220712
+    - Sample: Zjets
+      Yield: 0.7877163843967655
+      Error: 0.009051636129452202
+    - Sample: Wjets
+      Yield: 0.008263988065734727
+      Error: 4.7324611049042924e-05
+    - Sample: ttWZ
+      Yield: 0.7456450227021213
+      Error: 0.008562513969453005
+    - Sample: WtZ
+      Yield: 8.487915452404058
+      Error: 0.10360181098180024
+    - Sample: ttHH
+      Yield: 0.43481413748719794
+      Error: 0.004975333326460193
+    - Sample: threeTop
+      Yield: 1.0882759675622928
+      Error: 0.013178479272779537
+    - Sample: ttWH
+      Yield: 0.6048790221403217
+      Error: 0.006908944824344083
+    - Sample: Vgamma
+      Yield: 29.15700096394093
+      Error: 0.3341128585211243
+    - Sample: ttWW
+      Yield: 5.531169373603473
+      Error: 0.0688789801391675
+    - Sample: VVV
+      Yield: 0.3884069588043706
+      Error: 0.004837092964323862
+    - Sample: VV
+      Yield: 5.918736849014088
+      Error: 0.06754064141563573
+    - Sample: Total
+      Yield: 8246.510165655363
+      Error: 11.984760659512062

@@ -148,12 +148,12 @@ class evaluate:
                     continue
 
                 fpr, tpr, _ = roc_curve(val.y, probs[:, i], pos_label=i)
-                auc = np.trapz(tpr, fpr)
+                auc = np.trapezoid(tpr, fpr)
 
                 fprw, tprw, _ = roc_curve(
                     val.y, probs[:, i], pos_label=i, sample_weight=val.w
                 )
-                aucw = np.trapz(tprw, fprw)
+                aucw = np.trapezoid(tprw, fprw)
 
                 self.metrics[f"val/auc/{val.y_names[i]}"] = auc
                 self.metrics[f"val/auc_w/{val.y_names[i]}"] = aucw

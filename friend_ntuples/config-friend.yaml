@@ -1,6 +1,6 @@
-source_base_dir: ~\\Dropbox\\CERN\ntuples\\fastframes      # no trailing '/'!!!
-target_base_dir: ~\\Documents\\coding\\lq-asym/friend_ntuples/output/friend/    # yes trailing '/'!!!
-model_path: ~\\Documents\\coding\\lq-asym/friend_ntuples/model.py
+source_base_dir: /home/champson/data/fastframes      # no trailing '/'!!!
+target_base_dir: /home/champson/programs/lq-asym/friend_ntuples/output/friend/    # yes trailing '/'!!!
+model_path: /home/champson/programs/lq-asym/friend_ntuples/model.py
 trex_config: ./configs/training.config
 region: taus-pt-0
 branch_name: probs_LQ

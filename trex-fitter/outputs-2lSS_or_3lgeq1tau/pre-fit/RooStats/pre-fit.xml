@@ -1,0 +1,17 @@
+<!--
+This xml file created automatically on: 
+2026-5-31
+-->
+<!DOCTYPE Combination  SYSTEM 'HistFactorySchema.dtd'>
+
+<Combination OutputFilePrefix="./outputs/pre-fit/RooStats/pre-fit" >
+
+
+  <Input>././outputs/pre-fit/RooStats//pre-fit_tau-pt-0.xml</Input>
+
+  <Measurement Name="pre-fit" Lumi="1" LumiRelErr="0" ExportOnly="True"  >
+    <POI>mu_LQ</POI>  
+    <ParamSetting Const="True">Lumi mu_LQ</ParamSetting>
+  </Measurement> 
+
+</Combination>

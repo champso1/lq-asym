@@ -1,0 +1,125 @@
+<!--
+This xml file created automatically on: 
+2026-5-30
+-->
+<!DOCTYPE Channel  SYSTEM 'HistFactorySchema.dtd'>  
+
+  <Channel Name="probs-lq" InputFile="" >
+
+    <Data HistoName="" InputFile="" HistoPath=""  /> 
+
+    <StatErrorConfig RelErrorThreshold="0.01" ConstraintType="Poisson" /> 
+
+    <Sample Name="LQ"  HistoPath="probs-lq/LQ/nominal/"  HistoName="probs-lq_LQ_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+      <NormFactor Name="mu_LQ"  Val="1"  High="10"  Low="0"   /> 
+    </Sample>
+
+
+    <Sample Name="ttgamma"  HistoPath="probs-lq/ttgamma/nominal/"  HistoName="probs-lq_ttgamma_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttbar"  HistoPath="probs-lq/ttbar/nominal/"  HistoName="probs-lq_ttbar_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttW"  HistoPath="probs-lq/ttW/nominal/"  HistoName="probs-lq_ttW_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttH"  HistoPath="probs-lq/ttH/nominal/"  HistoName="probs-lq_ttH_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttZ"  HistoPath="probs-lq/ttZ/nominal/"  HistoName="probs-lq_ttZ_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="SingleTop"  HistoPath="probs-lq/SingleTop/nominal/"  HistoName="probs-lq_SingleTop_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttZZ"  HistoPath="probs-lq/ttZZ/nominal/"  HistoName="probs-lq_ttZZ_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="tZ"  HistoPath="probs-lq/tZ/nominal/"  HistoName="probs-lq_tZ_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="VH"  HistoPath="probs-lq/VH/nominal/"  HistoName="probs-lq_VH_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="fourTop"  HistoPath="probs-lq/fourTop/nominal/"  HistoName="probs-lq_fourTop_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="Zjets"  HistoPath="probs-lq/Zjets/nominal/"  HistoName="probs-lq_Zjets_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="Wjets"  HistoPath="probs-lq/Wjets/nominal/"  HistoName="probs-lq_Wjets_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttWZ"  HistoPath="probs-lq/ttWZ/nominal/"  HistoName="probs-lq_ttWZ_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="WtZ"  HistoPath="probs-lq/WtZ/nominal/"  HistoName="probs-lq_WtZ_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttHH"  HistoPath="probs-lq/ttHH/nominal/"  HistoName="probs-lq_ttHH_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="threeTop"  HistoPath="probs-lq/threeTop/nominal/"  HistoName="probs-lq_threeTop_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttWH"  HistoPath="probs-lq/ttWH/nominal/"  HistoName="probs-lq_ttWH_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="Vgamma"  HistoPath="probs-lq/Vgamma/nominal/"  HistoName="probs-lq_Vgamma_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttWW"  HistoPath="probs-lq/ttWW/nominal/"  HistoName="probs-lq_ttWW_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="VVV"  HistoPath="probs-lq/VVV/nominal/"  HistoName="probs-lq_VVV_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="VV"  HistoPath="probs-lq/VV/nominal/"  HistoName="probs-lq_VV_regBin"  InputFile="./outputs/probs/Histograms/probs_probs-lq_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+
+  </Channel>  

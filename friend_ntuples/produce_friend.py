@@ -17,7 +17,7 @@ from ml.utils import get_config
 from pipeliner.utils import read_yaml
 
 parser = ArgumentParser()
-parser.add_argument("--config", default="~\\Documents\\coding\\lq-asym\\friend_ntuples\\config-friend.yaml", help="Path to the config file")
+parser.add_argument("--config", default="/home/champson/programs/lq-asym/friend_ntuples/config-friend.yaml", help="Path to the config file")
 parser.add_argument("--restart", action="store_true", help="Restart from the beginning")
 parser.add_argument("--source-base-dir", help="Override the source base directory specified in the config file")
 parser.add_argument("--target-base-dir", help="Override the target base directory specified in the config file")

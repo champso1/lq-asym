@@ -1,6 +1,5 @@
-uproot==5.4.1
+uproot==5.6.9
 wandb
-argparse
 tqdm
 numpy
 autorootcwd

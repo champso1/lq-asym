@@ -1,0 +1,145 @@
+<!--
+This xml file created automatically on: 
+2026-5-30
+-->
+<!DOCTYPE Channel  SYSTEM 'HistFactorySchema.dtd'>  
+
+  <Channel Name="lowJetCR" InputFile="" >
+
+    <Data HistoName="" InputFile="" HistoPath=""  /> 
+
+    <StatErrorConfig RelErrorThreshold="0.01" ConstraintType="Poisson" /> 
+
+    <Sample Name="ttH"  HistoPath="lowJetCR/ttH/nominal/"  HistoName="lowJetCR_ttH_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="FakeTau"  HistoPath="lowJetCR/FakeTau/nominal/"  HistoName="lowJetCR_FakeTau_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="FakeEl"  HistoPath="lowJetCR/FakeEl/nominal/"  HistoName="lowJetCR_FakeEl_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="FakeMu"  HistoPath="lowJetCR/FakeMu/nominal/"  HistoName="lowJetCR_FakeMu_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="FakeTauLep"  HistoPath="lowJetCR/FakeTauLep/nominal/"  HistoName="lowJetCR_FakeTauLep_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttZZ"  HistoPath="lowJetCR/ttZZ/nominal/"  HistoName="lowJetCR_ttZZ_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttgamma"  HistoPath="lowJetCR/ttgamma/nominal/"  HistoName="lowJetCR_ttgamma_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="tZ"  HistoPath="lowJetCR/tZ/nominal/"  HistoName="lowJetCR_tZ_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="VH"  HistoPath="lowJetCR/VH/nominal/"  HistoName="lowJetCR_VH_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttbar"  HistoPath="lowJetCR/ttbar/nominal/"  HistoName="lowJetCR_ttbar_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="fourTop"  HistoPath="lowJetCR/fourTop/nominal/"  HistoName="lowJetCR_fourTop_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="Zjets"  HistoPath="lowJetCR/Zjets/nominal/"  HistoName="lowJetCR_Zjets_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="Wjets"  HistoPath="lowJetCR/Wjets/nominal/"  HistoName="lowJetCR_Wjets_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttW"  HistoPath="lowJetCR/ttW/nominal/"  HistoName="lowJetCR_ttW_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttWZ"  HistoPath="lowJetCR/ttWZ/nominal/"  HistoName="lowJetCR_ttWZ_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="WtZ"  HistoPath="lowJetCR/WtZ/nominal/"  HistoName="lowJetCR_WtZ_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttHH"  HistoPath="lowJetCR/ttHH/nominal/"  HistoName="lowJetCR_ttHH_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="threeTop"  HistoPath="lowJetCR/threeTop/nominal/"  HistoName="lowJetCR_threeTop_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttWH"  HistoPath="lowJetCR/ttWH/nominal/"  HistoName="lowJetCR_ttWH_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="Vgamma"  HistoPath="lowJetCR/Vgamma/nominal/"  HistoName="lowJetCR_Vgamma_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttWW"  HistoPath="lowJetCR/ttWW/nominal/"  HistoName="lowJetCR_ttWW_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="VVV"  HistoPath="lowJetCR/VVV/nominal/"  HistoName="lowJetCR_VVV_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttZ"  HistoPath="lowJetCR/ttZ/nominal/"  HistoName="lowJetCR_ttZ_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="VV"  HistoPath="lowJetCR/VV/nominal/"  HistoName="lowJetCR_VV_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="SingleTop"  HistoPath="lowJetCR/SingleTop/nominal/"  HistoName="lowJetCR_SingleTop_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="LQ"  HistoPath="lowJetCR/LQ/nominal/"  HistoName="lowJetCR_LQ_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_lowJetCR_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+      <NormFactor Name="mu_LQ"  Val="1"  High="100"  Low="-100"   /> 
+    </Sample>
+
+
+
+  </Channel>  

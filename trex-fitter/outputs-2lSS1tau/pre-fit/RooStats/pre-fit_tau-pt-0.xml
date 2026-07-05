@@ -1,0 +1,125 @@
+<!--
+This xml file created automatically on: 
+2026-5-31
+-->
+<!DOCTYPE Channel  SYSTEM 'HistFactorySchema.dtd'>  
+
+  <Channel Name="tau-pt-0" InputFile="" >
+
+    <Data HistoName="" InputFile="" HistoPath=""  /> 
+
+    <StatErrorConfig RelErrorThreshold="0.01" ConstraintType="Poisson" /> 
+
+    <Sample Name="ttgamma"  HistoPath="tau-pt-0/ttgamma/nominal/"  HistoName="tau-pt-0_ttgamma_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttbar"  HistoPath="tau-pt-0/ttbar/nominal/"  HistoName="tau-pt-0_ttbar_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttW"  HistoPath="tau-pt-0/ttW/nominal/"  HistoName="tau-pt-0_ttW_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttH"  HistoPath="tau-pt-0/ttH/nominal/"  HistoName="tau-pt-0_ttH_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttZ"  HistoPath="tau-pt-0/ttZ/nominal/"  HistoName="tau-pt-0_ttZ_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="SingleTop"  HistoPath="tau-pt-0/SingleTop/nominal/"  HistoName="tau-pt-0_SingleTop_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="Vgamma"  HistoPath="tau-pt-0/Vgamma/nominal/"  HistoName="tau-pt-0_Vgamma_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttZZ"  HistoPath="tau-pt-0/ttZZ/nominal/"  HistoName="tau-pt-0_ttZZ_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="VH"  HistoPath="tau-pt-0/VH/nominal/"  HistoName="tau-pt-0_VH_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="fourTop"  HistoPath="tau-pt-0/fourTop/nominal/"  HistoName="tau-pt-0_fourTop_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="Zjets"  HistoPath="tau-pt-0/Zjets/nominal/"  HistoName="tau-pt-0_Zjets_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="Wjets"  HistoPath="tau-pt-0/Wjets/nominal/"  HistoName="tau-pt-0_Wjets_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttWZ"  HistoPath="tau-pt-0/ttWZ/nominal/"  HistoName="tau-pt-0_ttWZ_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="WtZ"  HistoPath="tau-pt-0/WtZ/nominal/"  HistoName="tau-pt-0_WtZ_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttHH"  HistoPath="tau-pt-0/ttHH/nominal/"  HistoName="tau-pt-0_ttHH_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="threeTop"  HistoPath="tau-pt-0/threeTop/nominal/"  HistoName="tau-pt-0_threeTop_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttWH"  HistoPath="tau-pt-0/ttWH/nominal/"  HistoName="tau-pt-0_ttWH_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="ttWW"  HistoPath="tau-pt-0/ttWW/nominal/"  HistoName="tau-pt-0_ttWW_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="VVV"  HistoPath="tau-pt-0/VVV/nominal/"  HistoName="tau-pt-0_VVV_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="VV"  HistoPath="tau-pt-0/VV/nominal/"  HistoName="tau-pt-0_VV_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="tZ"  HistoPath="tau-pt-0/tZ/nominal/"  HistoName="tau-pt-0_tZ_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+    </Sample>
+
+
+    <Sample Name="LQ"  HistoPath="tau-pt-0/LQ/nominal/"  HistoName="tau-pt-0_LQ_regBin"  InputFile="./outputs/pre-fit/Histograms/pre-fit_tau-pt-0_histos.root"  NormalizeByTheory="True" >
+      <StatError Activate="True"  InputFile=""  HistoName=""  HistoPath=""  /> 
+      <NormFactor Name="mu_LQ"  Val="1"  High="100"  Low="-100"   /> 
+    </Sample>
+
+
+
+  </Channel>  

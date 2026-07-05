@@ -1,0 +1,71 @@
+- Region: 2lSS 1#tau
+  Samples:
+    - Sample: ttgamma
+      Yield: 16.395498168283982
+      Error: 5.465086200004099e-08
+    - Sample: ttbar
+      Yield: 86.29785094347757
+      Error: 5.4650908789411196e-08
+    - Sample: ttW
+      Yield: 32.71648957391549
+      Error: 5.4650897836563694e-08
+    - Sample: ttH
+      Yield: 34.82556389381125
+      Error: 5.4650898920723846e-08
+    - Sample: ttZ
+      Yield: 29.68794511439463
+      Error: 5.465089109607072e-08
+    - Sample: SingleTop
+      Yield: 26.73814041292136
+      Error: 5.4650882313077856e-08
+    - Sample: Vgamma
+      Yield: 8.468117067104373
+      Error: 5.4647408089580925e-08
+    - Sample: ttZZ
+      Yield: 0.11875887424970491
+      Error: 5.464401344398506e-08
+    - Sample: VH
+      Yield: 0.004669702140732095
+      Error: 5.445268093619487e-08
+    - Sample: fourTop
+      Yield: 2.9002223103091342
+      Error: 5.4650670361333864e-08
+    - Sample: Zjets
+      Yield: 0.1699540768537856
+      Error: 5.409409937300459e-08
+    - Sample: Wjets
+      Yield: 1.9999999999999998e-05
+      Error: 5.4650915330599573e-08
+    - Sample: ttWZ
+      Yield: 0.3021224659361393
+      Error: 5.464856385262486e-08
+    - Sample: WtZ
+      Yield: 5.213541677744941
+      Error: 5.431249775980647e-08
+    - Sample: ttHH
+      Yield: 0.12740349795304445
+      Error: 5.464491055914562e-08
+    - Sample: threeTop
+      Yield: 0.3317209618418614
+      Error: 5.4648444203030366e-08
+    - Sample: ttWH
+      Yield: 0.2055217670830905
+      Error: 5.46471928107723e-08
+    - Sample: ttWW
+      Yield: 2.1486210361614146
+      Error: 5.4650508412605656e-08
+    - Sample: VVV
+      Yield: 0.3977964177096756
+      Error: 5.4639738220232266e-08
+    - Sample: VV
+      Yield: 2.191167957582176
+      Error: 5.4641875001353423e-08
+    - Sample: tZ
+      Yield: 2.8441619615537954
+      Error: 5.4650588533533664e-08
+    - Sample: LQ
+      Yield: 10800.945533447122
+      Error: 5.645005324710309
+    - Sample: Total
+      Yield: 11053.03082132815
+      Error: 5.64500627425842

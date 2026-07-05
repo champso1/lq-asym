@@ -1,0 +1,71 @@
+- Region: p(y = lq | x)
+  Samples:
+    - Sample: LQ
+      Yield: 4873.902770496225
+      Error: 0.4649996803696977
+    - Sample: ttgamma
+      Yield: 28.42072886103538
+      Error: 0.45089336187052237
+    - Sample: ttbar
+      Yield: 66.131081191709
+      Error: 1.054650761471353
+    - Sample: ttW
+      Yield: 37.77867283885256
+      Error: 0.5367864486563387
+    - Sample: ttH
+      Yield: 57.66402961154609
+      Error: 0.8872201062611256
+    - Sample: ttZ
+      Yield: 39.864520459533516
+      Error: 0.6057759233282334
+    - Sample: SingleTop
+      Yield: 26.153032412623293
+      Error: 0.4219084227334347
+    - Sample: ttZZ
+      Yield: 0.17395305833932126
+      Error: 0.0024824945280065686
+    - Sample: tZ
+      Yield: 2.5739399011220963
+      Error: 0.040796560771629416
+    - Sample: VH
+      Yield: 0.00804822581660248
+      Error: 0.0001363484302559999
+    - Sample: fourTop
+      Yield: 6.905485926988674
+      Error: 0.09047661853388547
+    - Sample: Zjets
+      Yield: 0.06322809823612628
+      Error: 0.001010147537912931
+    - Sample: Wjets
+      Yield: 4.9999999999999996e-06
+      Error: 1.0754098157972098e-07
+    - Sample: ttWZ
+      Yield: 0.41250945985133136
+      Error: 0.005627614189353185
+    - Sample: WtZ
+      Yield: 3.7186839473810442
+      Error: 0.05049783769527317
+    - Sample: ttHH
+      Yield: 0.27808160167887314
+      Error: 0.004031760227126656
+    - Sample: threeTop
+      Yield: 0.7392267430736688
+      Error: 0.009458979702438766
+    - Sample: ttWH
+      Yield: 0.33909479554730115
+      Error: 0.004818975878786078
+    - Sample: Vgamma
+      Yield: 7.036140695189479
+      Error: 0.11803495287141398
+    - Sample: ttWW
+      Yield: 2.6528962084665815
+      Error: 0.03653559568453719
+    - Sample: VVV
+      Yield: 0.07401532353900919
+      Error: 0.0008940239431264682
+    - Sample: VV
+      Yield: 1.2237892813892504
+      Error: 0.01994425309540313
+    - Sample: Total
+      Yield: 5156.113934138145
+      Error: 4.456834822041645

@@ -19,10 +19,10 @@ def evaluate_rocs(model: Model, val: Data, batch_size: int, device="cpu", wandb_
 
     for i in trange(val.n_classes, desc="Evaluating ROC curves"):
         fpr, tpr, _ = roc_curve(val.y, probs[:, i], pos_label=i)
-        auc = np.trapz(tpr, fpr)
+        auc = np.trapezoid(tpr, fpr)
 
         fprw, tprw, _ = roc_curve(val.y, probs[:, i], pos_label=i, sample_weight=val.w.cpu())
-        aucw = np.trapz(tprw, fprw)
+        aucw = np.trapezoid(tprw, fprw)
 
         fig, ax = plt.subplots(figsize=(8, 8))
 

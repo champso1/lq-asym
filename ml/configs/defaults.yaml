@@ -1,6 +1,6 @@
 seed: 0
 use_wandb: True
-project_name: fastframes
+project_name: fastframes-new
 data_path: data_processing/output
 
 use_binary: False

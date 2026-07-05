@@ -1,8 +1,8 @@
 ##==============
 ## Ntuple Paths
 ##==============
-XXX_NtuplePaths: /home/data/ntuples/fastframes
-XXX_FriendPaths: /home/data/ntuples/friend/resnet-6
+XXX_NtuplePaths: /home/champson/data/fastframes
+XXX_FriendPaths: /home/champson/programs/lq-asym/friend_ntuples/output/friend/resnet-6
 
 ##==================
 ## Selection
@@ -14,6 +14,11 @@ XXX_FAKE_TAU_LEP_SELECTION: (!((leps_IFFtype_0_NOSYS == 2) || (leps_IFFtype_0_NO
 XXX_FAKE_EL_SELECTION: (!((leps_IFFtype_0_NOSYS == 2) || (leps_IFFtype_0_NOSYS == 4) || (leps_IFFtype_0_NOSYS == 7)) && ((leps_IFFtype_1_NOSYS == 2) || (leps_IFFtype_1_NOSYS == 4) || (leps_IFFtype_1_NOSYS == 7)) && tau_truth_IsHadronicTau && (leps_flav_0_NOSYS == 0)) || (((leps_IFFtype_0_NOSYS == 2) || (leps_IFFtype_0_NOSYS == 4) || (leps_IFFtype_0_NOSYS == 7)) && !((leps_IFFtype_1_NOSYS == 2) || (leps_IFFtype_1_NOSYS == 4) || (leps_IFFtype_1_NOSYS == 7)) && tau_truth_IsHadronicTau && (leps_flav_1_NOSYS == 0)) && tau_truth_IsHadronicTau
 XXX_FAKE_MU_SELECTION: (!((leps_IFFtype_0_NOSYS == 2) || (leps_IFFtype_0_NOSYS == 4) || (leps_IFFtype_0_NOSYS == 7)) && ((leps_IFFtype_1_NOSYS == 2) || (leps_IFFtype_1_NOSYS == 4) || (leps_IFFtype_1_NOSYS == 7)) && tau_truth_IsHadronicTau && (leps_flav_0_NOSYS == 1)) || (((leps_IFFtype_0_NOSYS == 2) || (leps_IFFtype_0_NOSYS == 4) || (leps_IFFtype_0_NOSYS == 7)) && !((leps_IFFtype_1_NOSYS == 2) || (leps_IFFtype_1_NOSYS == 4) || (leps_IFFtype_1_NOSYS == 7)) && tau_truth_IsHadronicTau && (leps_flav_1_NOSYS == 1)) && tau_truth_IsHadronicTau
 XXX_NOT_FAKE_SELECTION: !(XXX_DOUBLE_FAKE_SELECTION && XXX_FAKE_TAU_SELECTION && XXX_FAKE_TAU_LEP_SELECTION && XXX_FAKE_EL_SELECTION && XXX_FAKE_MU_SELECTION)
+
+# 2lss1tau selection
+# XXX_SELECTION: (taus_n_NOSYS == 1) && (jets_n_NOSYS >= 4) && (nbJets77_NOSYS >= 1) && (abs(Mll01_NOSYS/1e3 - 91.2) > 10.0) && (Mll01_NOSYS/1e3 > 12.0) && (leps_pt_0_NOSYS/1e3 > 25.0) && (leps_pt_1_NOSYS/1e3 > 10.0)
+# 2lSSor3l+>=1tau
+XXX_SELECTION: (taus_n_NOSYS >= 1) && (jets_n_NOSYS >= 2) && (nbJets77_NOSYS >= 1) && (abs(Mll01_NOSYS/1e3 - 91.2) > 10.0) && (Mll01_NOSYS/1e3 > 12.0) && (leps_pt_0_NOSYS/1e3 > 25.0) && (leps_pt_1_NOSYS/1e3 > 25.0) && (taus_pt_0_NOSYS/1e3 >= 50.0)
 
 
 ## =========================
@@ -41,5 +46,7 @@ XXX_VVV_samples: mc20a/364242, mc20a/364243, mc20a/364244, mc20a/364245, mc20a/3
 XXX_ttZ_samples: mc20a/504330, mc20a/504334, mc20a/504342, mc20d/504330, mc20d/504334, mc20d/504342, mc20e/504330, mc20e/504334, mc20e/504342
 XXX_VV_samples: mc20a/701000, mc20a/701005, mc20a/701010, mc20a/701015, mc20a/701020, mc20a/701025, mc20a/701030, mc20a/701035, mc20a/701055, mc20a/701085, mc20a/701090, mc20a/701095, mc20a/701100, mc20a/701105, mc20a/701115, mc20a/701120, mc20a/701125, mc20d/701000, mc20d/701005, mc20d/701010, mc20d/701015, mc20d/701020, mc20d/701025, mc20d/701030, mc20d/701035, mc20d/701055, mc20d/701085, mc20d/701090, mc20d/701095, mc20d/701100, mc20d/701105, mc20d/701115, mc20d/701120, mc20d/701125, mc20e/701000, mc20e/701005, mc20e/701010, mc20e/701015, mc20e/701020, mc20e/701025, mc20e/701030, mc20e/701035, mc20e/701055, mc20e/701085, mc20e/701090, mc20e/701095, mc20e/701100, mc20e/701105, mc20e/701115, mc20e/701120, mc20e/701125
 XXX_SingleTop_samples: mc20a/410644, mc20a/410645, mc20a/410654, mc20a/410655, mc20a/410659, mc20d/410644, mc20d/410645, mc20d/410654, mc20d/410655, mc20d/410659, mc20e/410644, mc20e/410645, mc20e/410654, mc20e/410655, mc20e/410659
+
+XXX_LQ2000y1_samples: mc20a/545825, mc20d/545825, mc20e/545825
 
 XXX_ALL_samples: XXX_ttZZ_samples, XXX_ttgamma_samples, XXX_tZ_samples, XXX_VH_samples, XXX_ttbar_samples, XXX_fourTop_samples, XXX_Zjets_samples, XXX_Wjets_samples, XXX_ttW_samples, XXX_ttWZ_samples, XXX_WtZ_samples, XXX_ttHH_samples, XXX_threeTop_samples, XXX_LQ_samples, XXX_ttWH_samples, XXX_ttH_samples, XXX_Vgamma_samples, XXX_ttWW_samples, XXX_VVV_samples, XXX_ttZ_samples, XXX_VV_samples, XXX_SingleTop_samples
