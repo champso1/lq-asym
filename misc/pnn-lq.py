@@ -22,7 +22,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-base = "/home/champson/data/fastframes"
+base = "/mnt/d/Documents/Ntuples/fastframes"
 # -----------------------------
 # lq masses (1.0 yukawa only)
 # -----------------------------
@@ -461,13 +461,13 @@ def extract_feature(x):
     return float(x)
  
  
-def load_root_files(file_paths, tree_name, features):
+def load_root_files(file_paths, tree_name, features, cut_expr):
     """Load ROOT files and return a plain feature matrix (no mass column)."""
     chunks = []
     for fp in file_paths:
         print(f"  Loading: {fp}")
         with uproot.open(fp) as f:
-            df = f[tree_name].arrays(features, library="pd")
+            df = f[tree_name].arrays(features, library="pd", cut=cut_expr)
         for feat in features:
             df[feat] = df[feat].apply(extract_feature)
         df = df.fillna(0)
@@ -540,22 +540,23 @@ def save_prf1_vs_threshold_plot(y_true, y_score, title, out_path, n_thr=1000):
 # Background: one array (no mass column yet)
 # ── 1. Load raw data ──────────────────────────────────────────────────────────
 
+cut_expr = "(taus_n_NOSYS >= 1) * (jets_n_NOSYS >= 2) * (nbJets77_NOSYS >= 1) * (abs(Mll01_NOSYS/1.0e3 - 91.2) > 10.0) * (Mll01_NOSYS/1.0e3 > 12.0) * (leps_pt_0_NOSYS/1.0e3 > 25.0) * (leps_pt_1_NOSYS/1.0e3 > 25.0) * (taus_pt_0_NOSYS/1.0e3 >= 50.0)"
+
 print("\n=== Loading background ===")
-X_bkg_raw = load_root_files(background_files, tree_name, pnn_features)
+X_bkg_raw = load_root_files(background_files, tree_name, pnn_features, cut_expr)
 print(f"Background events: {len(X_bkg_raw)}")
 
 print("\n=== Loading signal by mass ===")
 mass_grid  = np.array(sorted(signal_by_mass.keys()), dtype=np.float32)
 X_sig_list = []
 for m, files in sorted(signal_by_mass.items()):
-    X = load_root_files(files, tree_name, pnn_features)
+    X = load_root_files(files, tree_name, pnn_features, cut_expr)
     X_sig_list.append((m, X))
     print(f"  m={m:5d} GeV: {len(X)} events")
 
 X_sig_raw_all  = np.concatenate([X for _, X in X_sig_list], axis=0)
 m_sig_true_all = np.concatenate([np.full(len(X), m) for m, X in X_sig_list])
 
-exit()
 
 # ── 2. Split RAW data BEFORE duplication ─────────────────────────────────────
 # This is critical — val and test must use unique background events
@@ -596,7 +597,7 @@ for m, X in X_sig_list:
     if mask.sum() > 0:
         w_sig_train[mask] = len(mass_grid) / mask.sum()
 
-# Background train: duplicate across all 17 masses
+# Background train: duplicate across all masses
 bkg_chunks = []
 for m in mass_grid:
     X_bkg_m = np.concatenate(
@@ -872,8 +873,8 @@ if len(X_probe) > 0:
 #   - sig_prob for ALL background events
 #   - Save histograms for TRExFitter input
  
-#print("\n=== Per-mass evaluation for TRExFitter ===")
-#os.makedirs("pnn_xgb/trex_inputs", exist_ok=True)
+print("\n=== Per-mass evaluation for TRExFitter ===")
+os.makedirs("pnn_xgb/trex_inputs", exist_ok=True)
  
 trex_results = {}
  
