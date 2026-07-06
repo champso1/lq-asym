@@ -29,6 +29,7 @@ def read_region(region: str, # config["region"] = "taus-pt-0"
         files = [f"{file}:{parser.ntuple_name}" for file in parser.files_by_process()[s]]
         weight = parser.weight_expr(process=s, with_luminosity=True)
         cut_expr = parser.cut_expr(region, s)
+        print(cut_expr)
 
         concatenated = None
 
