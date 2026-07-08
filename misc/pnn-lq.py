@@ -17,12 +17,13 @@ import shap
 import pandas as pd
 import plotly.express as px
 from imblearn.over_sampling import SMOTE
+import uproot
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-base = "/mnt/d/Documents/Ntuples/fastframes"
+base = "/home/champson/data/fastframes"
 # -----------------------------
 # lq masses (1.0 yukawa only)
 # -----------------------------
@@ -463,18 +464,29 @@ def extract_feature(x):
  
 def load_root_files(file_paths, tree_name, features, cut_expr):
     """Load ROOT files and return a plain feature matrix (no mass column)."""
-    chunks = []
+    chunks_X = []
+    chunks_w = []
+    
     for fp in file_paths:
         print(f"  Loading: {fp}")
         with uproot.open(fp) as f:
             df = f[tree_name].arrays(features, library="pd", cut=cut_expr)
+            df_w = f[tree_name].arrays(["weight_total_NOSYS"], library="pd", cut=cut_expr)
         for feat in features:
             df[feat] = df[feat].apply(extract_feature)
+        df_w["weight_total_NOSYS"] = df_w["weight_total_NOSYS"].apply(extract_feature)
         df = df.fillna(0)
-        chunks.append(df[features].values.astype(np.float32))
-    if not chunks:
-        return np.empty((0, len(features)), dtype=np.float32)
-    return np.concatenate(chunks, axis=0)
+        df_w = df_w.fillna(0)
+
+        X_data = df[features].values.astype(np.float32)
+        w_data = df_w["weight_total_NOSYS"].values.astype(np.float32)
+        
+        chunks_X.append(X_data)
+        chunks_w.append(w_data)
+        
+    if not chunks_X:
+        return np.empty((0, len(features)), dtype=np.float32), np.empty((0,), dtype=np.float32)
+    return np.concatenate(chunks_X, axis=0), np.concatenate(chunks_w, axis=0)
  
  
 def append_log_mass(X, mass_value):
@@ -543,19 +555,51 @@ def save_prf1_vs_threshold_plot(y_true, y_score, title, out_path, n_thr=1000):
 cut_expr = "(taus_n_NOSYS >= 1) * (jets_n_NOSYS >= 2) * (nbJets77_NOSYS >= 1) * (abs(Mll01_NOSYS/1.0e3 - 91.2) > 10.0) * (Mll01_NOSYS/1.0e3 > 12.0) * (leps_pt_0_NOSYS/1.0e3 > 25.0) * (leps_pt_1_NOSYS/1.0e3 > 25.0) * (taus_pt_0_NOSYS/1.0e3 >= 50.0)"
 
 print("\n=== Loading background ===")
-X_bkg_raw = load_root_files(background_files, tree_name, pnn_features, cut_expr)
+# X_bkg_raw, w_bkg_raw = load_root_files(background_files, tree_name, pnn_features, cut_expr)
+# np.save("pnn_xgb/X_bkg_raw.npy", X_bkg_raw)
+# np.save("pnn_xgb/w_bkg_raw.npy", w_bkg_raw)
+X_bkg_raw = np.load("pnn_xgb/X_bkg_raw.npy")
+w_bkg_raw = np.load("pnn_xgb/w_bkg_raw.npy")
 print(f"Background events: {len(X_bkg_raw)}")
+X_bkg_count = len(X_bkg_raw)
 
 print("\n=== Loading signal by mass ===")
 mass_grid  = np.array(sorted(signal_by_mass.keys()), dtype=np.float32)
-X_sig_list = []
+print(f"Masses: {mass_grid}")
+
+# saving data at first
+"""
+X_sig_dict = {}
+w_sig_dict = {}
 for m, files in sorted(signal_by_mass.items()):
-    X = load_root_files(files, tree_name, pnn_features, cut_expr)
+    X, w = load_root_files(files, tree_name, pnn_features, cut_expr)
+    # Store using the mass as a string key
+    X_sig_dict[f"mass_{m}"] = X
+    w_sig_dict[f"mass_{m}"] = w
+    print(f"  m={m:5d} GeV: {len(X)} events")
+np.savez("pnn_xgb/X_sig_list.npz", **X_sig_dict)
+np.savez("pnn_xgb/w_sig_list.npz", **w_sig_dict)
+"""
+
+X_sig_list_archive = np.load("pnn_xgb/X_sig_list.npz")
+w_sig_list_archive = np.load("pnn_xgb/w_sig_list.npz")
+X_sig_list = []
+w_sig_list = []
+for m, files in sorted(signal_by_mass.items()):
+    X = X_sig_list_archive[f"mass_{m}"]
+    w = w_sig_list_archive[f"mass_{m}"]
     X_sig_list.append((m, X))
+    w_sig_list.append((m, w))
     print(f"  m={m:5d} GeV: {len(X)} events")
 
+X_sig_count_bymass = {}
+for m,X in X_sig_list:
+    X_sig_count_bymass[m] = len(X)
+
 X_sig_raw_all  = np.concatenate([X for _, X in X_sig_list], axis=0)
+w_sig_raw_all  = np.concatenate([w for _, w in w_sig_list], axis=0)
 m_sig_true_all = np.concatenate([np.full(len(X), m) for m, X in X_sig_list])
+
 
 
 # ── 2. Split RAW data BEFORE duplication ─────────────────────────────────────
@@ -563,22 +607,25 @@ m_sig_true_all = np.concatenate([np.full(len(X), m) for m, X in X_sig_list])
 # so early stopping and evaluation are not affected by duplication noise
 
 # Split raw background 80/10/10
-Xb_temp, Xb_test_raw = train_test_split(X_bkg_raw, test_size=0.10, random_state=42)
-Xb_train_raw, Xb_val_raw = train_test_split(Xb_temp, test_size=0.10, random_state=42)
+Xb_temp, Xb_test_raw, wb_temp, wb_test_raw = train_test_split(X_bkg_raw, w_bkg_raw, test_size=0.10, random_state=42)
+Xb_train_raw, Xb_val_raw, wb_train_raw, wb_val_raw = train_test_split(Xb_temp, wb_temp, test_size=0.10, random_state=42)
 
 # Split raw signal 80/10/10
-Xs_temp, Xs_test_raw, ms_temp, ms_test = train_test_split(
-    X_sig_raw_all, m_sig_true_all, test_size=0.10, random_state=42
+Xs_temp, Xs_test_raw, ms_temp, ms_test, ws_temp, ws_test_raw = train_test_split(
+    X_sig_raw_all, m_sig_true_all, w_sig_raw_all, test_size=0.10, random_state=42
 )
-Xs_train_raw, Xs_val_raw, ms_train, ms_val = train_test_split(
-    Xs_temp, ms_temp, test_size=0.10, random_state=42
+Xs_train_raw, Xs_val_raw, ms_train, ms_val, ws_train_raw, ws_val_raw = train_test_split(
+    Xs_temp, ms_temp, ws_temp, test_size=0.10, random_state=42
 )
 
 print(f"\nRaw splits:")
-print(f"  Signal   — train: {len(Xs_train_raw)}  val: {len(Xs_val_raw)}  test: {len(Xs_test_raw)}")
+print(f"  Signal     — train: {len(Xs_train_raw)}  val: {len(Xs_val_raw)}  test: {len(Xs_test_raw)}")
 print(f"  Background — train: {len(Xb_train_raw)}  val: {len(Xb_val_raw)}  test: {len(Xb_test_raw)}")
+print(f"  Sig Weight — train: {len(ws_train_raw)}  val: {len(ws_val_raw)}  test: {len(ws_test_raw)}")
+print(f"  Bkg Weight — train: {len(wb_train_raw)}  val: {len(wb_val_raw)}  test: {len(wb_test_raw)}")
 
 rng = np.random.default_rng(42)
+
 
 # ── 3. Build TRAINING data — duplicate background across all masses ───────────
 
@@ -596,6 +643,7 @@ for m, X in X_sig_list:
     mask = (ms_train == m)
     if mask.sum() > 0:
         w_sig_train[mask] = len(mass_grid) / mask.sum()
+
 
 # Background train: duplicate across all masses
 bkg_chunks = []
@@ -682,6 +730,8 @@ print(f"\nValidation set: {len(y_val)} rows  "
 X_test_raw = Xb_test_raw                    # (N_bkg_test, 24) unique background
 X_sig_test_raw = Xs_test_raw                # (N_sig_test, 24) signal
 m_sig_test     = ms_test                    # true mass for each test signal event
+w_test_sig_raw = ws_test_raw
+w_test_bkg_raw = wb_test_raw
 y_test_sig     = np.ones(len(Xs_test_raw),  dtype=np.int32)
 y_test_bkg     = np.zeros(len(Xb_test_raw), dtype=np.int32)
 
@@ -798,8 +848,15 @@ def build_pnn_model():
  
 
 # ── 6. Train ──────────────────────────────────────────────────────────────────
- 
+
+model_path = "pnn_xgb/pnn_model.json"
+
 print("\n=== Training XGB-pNN ===")
+pnn_model = xgb.XGBClassifier(device="cuda")
+pnn_model.load_model(model_path)
+print(f"Loaded pNN model from '{model_path}'")
+
+"""
 pnn_model = build_pnn_model()
 pnn_model.fit(
     X_train, y_train,
@@ -808,10 +865,13 @@ pnn_model.fit(
     sample_weight_eval_set = [w_val],
     verbose                = 100,
 )
- 
+
+
 os.makedirs("pnn_xgb", exist_ok=True)
-pnn_model.save_model("pnn_xgb/pnn_model.json")
-print("Saved pNN model → pnn_xgb/pnn_model.json")
+pnn_model.save_model(model_path)
+print(f"Saved pNN model → {model_path}")
+"""
+
  
  
 # ── 7. Inference helper ───────────────────────────────────────────────────────
@@ -824,6 +884,7 @@ print("Saved pNN model → pnn_xgb/pnn_model.json")
 X_test_combined = np.concatenate([X_sig_test_raw, X_test_raw], axis=0)
 y_test = np.concatenate([y_test_sig, y_test_bkg], axis=0).astype(np.int32)
 m_test = np.concatenate([m_sig_test, np.zeros(len(X_test_raw))], axis=0)  # bkg gets 0
+w_test = np.concatenate([w_test_sig_raw, w_test_bkg_raw], axis=0)
 
 print("\n=== Sanity check 1: per-mass AUC on test set ===")
 # For each mass m, evaluate signal-at-m vs all-background
@@ -854,9 +915,9 @@ for m in sorted(mass_grid):
     print(f"  m={m:5.0f} GeV:  mean bkg score = {mean_bkg_score:.4f}")
  
 print("\n=== Sanity check 3: mass response curve for one signal mass ===")
-# Pick 500 GeV signal. Score it under ALL mass hypotheses.
-# Should peak at 500 GeV.
-probe_mass = 500
+# Pick 2000 GeV signal. Score it under ALL mass hypotheses.
+# Should peak at 2000 GeV.
+probe_mass = 2000
 X_probe = X_test_combined[(y_test == 1) & (np.abs(m_test - probe_mass) < 1.0)]
 if len(X_probe) > 0:
     print(f"  Signal at {probe_mass} GeV scored under each hypothesis:")
@@ -882,10 +943,12 @@ for m in sorted(signal_by_mass.keys()):
     # Signal events whose TRUE mass == m
     X_sig_m    = X_test_combined[(y_test == 1) & (np.abs(m_test - m) < 1.0)]
     y_sig_m    = np.ones(len(X_sig_m), dtype=np.int32)
+    w_sig_m    = w_test[(y_test == 1) & (np.abs(m_test - m) < 1.0)]
  
     # All background test events
     X_bkg_m    = X_bkg_test_raw
     y_bkg_m    = np.zeros(len(X_bkg_m), dtype=np.int32)
+    w_bkg_m    = wb_test_raw
  
     if len(X_sig_m) == 0:
         print(f"  m={m:5d}: no test signal events, skipping")
@@ -908,8 +971,6 @@ for m in sorted(signal_by_mass.keys()):
           f"| S/√B={s_sqrt_b:.2f} "
           f"| sig_eff={tp/(tp+fn):.3f} | bkg_rej={1-fp/(fp+tn):.3f}")
  
-    # Save sig_prob arrays as numpy files for TRExFitter histogram building
- 
     # Optional: save prf1 plot
     save_prf1_vs_threshold_plot(
         y_combined, p_combined,
@@ -919,6 +980,20 @@ for m in sorted(signal_by_mass.keys()):
  
     trex_results[m] = dict(auc=auc, best_f1=best_f1, s_sqrt_b=s_sqrt_b,
                            sig_eff=tp/(tp+fn), bkg_rej=1-fp/(fp+tn))
+
+    # Save sig_prob arrays as histograms
+    weights_sig_m = w_sig_m
+    weights_bkg_m = w_test_bkg_raw
+    
+    n_bins = 20
+    bin_edges = np.linspace(0.0, 1.0, n_bins+1)
+    sig_scaled,_ = np.histogram(p_sig, bins=bin_edges, weights=weights_sig_m)
+    bkg_scaled,_ = np.histogram(p_bkg, bins=bin_edges, weights=weights_bkg_m)
+
+    with uproot.recreate(f"pnn_xgb/trex_inputs/hist_m{m}.root") as f:
+        f["Signal"] = (sig_scaled, bin_edges)
+        f["Background"] = (bkg_scaled, bin_edges)
+        
  
 # ── 10. Summary table ─────────────────────────────────────────────────────────
  

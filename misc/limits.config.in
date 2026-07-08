@@ -1,0 +1,57 @@
+Job: "lq-bymass-limits"
+  CmeLabel: "13 TeV"
+  POI: "mu_LQ"
+  ReadFrom: HIST
+  OutputDir: ./trexfitter-output/m%MASS%
+  HistoPaths: ./pnn_xgb/trex_inputs
+  Label: "LQ"
+  LumiLabel: "140 fb^{-1}"
+  Lumi: 1.0
+  MCstatThreshold: 0.05
+  HistoChecks: NOCRASH
+  SplitHistoFiles: TRUE
+  ImageFormat: pdf,png
+  DoSignalRegionsPlot: TRUE
+  RatioYmin: 0.5
+  RatioYmax: 1.5
+  DebugLevel: 1
+  BlindingThreshold: 0.15
+  PlotOptions: "YIELDS"
+
+
+Fit: fit
+  FitType: SPLUSB
+  FitRegion: CRSR
+  FitBlind: TRUE
+  UseMinos: "mu_LQ"
+
+
+NormFactor: "mu_LQ"
+  Title: "#mu_(LQ)"
+  Min: -100
+  Max: 100
+  Nominal: 1
+  Constant: FALSE
+  Samples: Signal
+
+Limit: "limit"
+  LimitType: ASYMPTOTIC
+  LimitBlind: FALSE
+
+Region: "Signal_Region"
+  Type: SIGNAL
+  Variable: "pNN_Score"
+  VariableTitle: "pNN Output Probability"
+  Binning: 0,0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1.0
+
+Sample: "Signal"
+  Type: SIGNAL
+  Title: "LQ"
+  HistoFile: "hist_m%MASS%"
+  HistoName: "Signal"
+
+Sample: "Background"
+  Type: BACKGROUND	
+  Title: "Background"
+  HistoFile: "hist_m%MASS%"
+  HistoName: "Background"
