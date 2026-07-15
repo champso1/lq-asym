@@ -1,29 +1,20 @@
 import os
-import sklearn
 import uproot
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
-from sklearn.metrics import roc_curve, auc
 import xgboost as xgb
 from sklearn.metrics import roc_auc_score, precision_score, recall_score, f1_score, confusion_matrix, precision_recall_curve
-# import optuna
-# import optuna.visualization as vis
-from sklearn.metrics import average_precision_score
-from sklearn.linear_model import LogisticRegression
 import matplotlib.pyplot as plt
-import joblib
 import shap
 import pandas as pd
-import plotly.express as px
-from imblearn.over_sampling import SMOTE
-import uproot
+import json
+import cupy as cp
+import optuna
 
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
 
-base = "/home/champson/data/fastframes"
+# base = "/home/champson/data/fastframes"
+base = "/mnt/d/Documents/Ntuples/fastframes"
 # -----------------------------
 # lq masses (1.0 yukawa only)
 # -----------------------------
@@ -391,7 +382,29 @@ threeTop = [
 background_files = ttH + ttW + ttZ + ttbar + vv + vvv + vh + vgamma + wjets + zjets + ttHH + ttWH + ttWW + ttWZ + ttZZ + ttgamma + tZ + WtZ + fourTop + singleTop + threeTop
 signal_files_all = signal_file_1 + signal_file_2 + signal_file_3 + signal_file_4 + signal_file_5 + signal_file_6 + signal_file_7 + signal_file_8 + signal_file_9 + signal_file_10 + signal_file_11
 
-
+background_files_dict = {
+    "ttH": ttH,
+    "ttW": ttW,
+    "ttZ": ttZ,
+    "ttbar": ttbar,
+    "vv": vv,
+    "vvv": vvv,
+    "vh": vh,
+    "vgamma": vgamma,
+    "wjets": wjets,
+    "zjets": zjets,
+    "ttHH": ttHH,
+    "ttWH": ttWH,
+    "ttWW": ttWW,
+    "ttWZ": ttWZ,
+    "ttZZ": ttZZ,
+    "ttgamma": ttgamma,
+    "tZ": tZ,
+    "WtZ": WtZ,
+    "fourTop": fourTop,
+    "singleTop": singleTop,
+    "threeTop": threeTop,
+}
 
 tree_name = "reco"
 
@@ -454,6 +467,36 @@ pnn_features = list(dict.fromkeys(selected_features))
  
 print(f"pNN feature set: {len(pnn_features)} physics features + 1 mass column")
 
+def make_samples_for_background():
+    all_lines = []
+    intext = """Sample: "%SAMPLE%"
+  Type: BACKGROUND
+  Group: "%GROUP%"
+  Title: "%SAMPLE%"
+  FillColor: %COLOR_IDX%
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "%SAMPLE%"
+    
+"""
+    color_idx_background = 3
+    color_idx_other = 20
+    for name,_ in background_files_dict.items():
+        printtxt = intext.replace("%SAMPLE%", name)
+        if name in ["ttH", "ttW", "ttZ", "ttbar"]:
+            printtxt = printtxt.replace("%GROUP%", name)
+            printtxt = printtxt.replace("%COLOR_IDX%", str(color_idx_background))
+            color_idx_background += 1
+        else:
+            printtxt = printtxt.replace("%GROUP%", "Other")
+            printtxt = printtxt.replace("%COLOR_IDX%", str(color_idx_other))
+            color_idx_other += 1 
+        all_lines.append(printtxt)
+
+    with open("trexfitter-samples.txt", "w") as f:
+        f.writelines(all_lines)
+
+make_samples_for_background()
 # ── Unchanged helpers ─────────────────────────────────────────────────────────
  
 def extract_feature(x):
@@ -533,7 +576,9 @@ def save_prf1_vs_threshold_plot(y_true, y_score, title, out_path, n_thr=1000):
     ax1.plot(thresholds, f1s,        "r-",  label="F1-Score")
     ax1.axvline(thresholds[best_f1_idx], color="purple", linestyle="--",
                 label=f"Best F1 thr ({thresholds[best_f1_idx]:.2f})")
-    ax1.set_xlabel("Threshold"); ax1.set_ylabel("Score"); ax1.set_ylim(0, 1.02)
+    ax1.set_xlabel("Threshold")
+    ax1.set_ylabel("Score")
+    ax1.set_ylim(0, 1.02)
     ax1.grid(True, alpha=0.3)
     ax2 = ax1.twinx()
     ax2.plot(thresholds, sigs, "-", label="TP/sqrt(FP)")
@@ -543,7 +588,10 @@ def save_prf1_vs_threshold_plot(y_true, y_score, title, out_path, n_thr=1000):
     lines1, labels1 = ax1.get_legend_handles_labels()
     lines2, labels2 = ax2.get_legend_handles_labels()
     ax1.legend(lines1 + lines2, labels1 + labels2, loc="lower center")
-    plt.title(title); plt.tight_layout(); plt.savefig(out_path, dpi=200); plt.close()
+    plt.title(title)
+    plt.tight_layout()
+    plt.savefig(out_path, dpi=200)
+    plt.close()
     return thresholds[best_f1_idx], f1s[best_f1_idx], thresholds[best_sig_idx], sigs[best_sig_idx]
  
  
@@ -555,11 +603,29 @@ def save_prf1_vs_threshold_plot(y_true, y_score, title, out_path, n_thr=1000):
 cut_expr = "(taus_n_NOSYS >= 1) * (jets_n_NOSYS >= 2) * (nbJets77_NOSYS >= 1) * (abs(Mll01_NOSYS/1.0e3 - 91.2) > 10.0) * (Mll01_NOSYS/1.0e3 > 12.0) * (leps_pt_0_NOSYS/1.0e3 > 25.0) * (leps_pt_1_NOSYS/1.0e3 > 25.0) * (taus_pt_0_NOSYS/1.0e3 >= 50.0)"
 
 print("\n=== Loading background ===")
-# X_bkg_raw, w_bkg_raw = load_root_files(background_files, tree_name, pnn_features, cut_expr)
-# np.save("pnn_xgb/X_bkg_raw.npy", X_bkg_raw)
-# np.save("pnn_xgb/w_bkg_raw.npy", w_bkg_raw)
-X_bkg_raw = np.load("pnn_xgb/X_bkg_raw.npy")
-w_bkg_raw = np.load("pnn_xgb/w_bkg_raw.npy")
+
+"""
+X_bkg_raw_dict = {}
+w_bkg_raw_dict = {}
+X_bkg_raw = None
+w_bkg_raw = None
+for bkg_name, bkg_files in background_files_dict.items():
+    X_bkg_raw_dict[bkg_name], w_bkg_raw_dict[bkg_name] = load_root_files(bkg_files, tree_name, pnn_features, cut_expr)
+    X_bkg_raw = X_bkg_raw_dict[bkg_name] if X_bkg_raw is None else np.concatenate([X_bkg_raw, X_bkg_raw_dict[bkg_name]], axis=0)
+    w_bkg_raw = w_bkg_raw_dict[bkg_name] if w_bkg_raw is None else np.concatenate([w_bkg_raw, w_bkg_raw_dict[bkg_name]], axis=0)
+np.savez("pnn_xgb/X_bkg_raw_dict.npz", **X_bkg_raw_dict)
+np.savez("pnn_xgb/w_bkg_raw_dict.npz", **w_bkg_raw_dict)
+"""
+
+X_bkg_raw_dict = np.load("pnn_xgb/X_bkg_raw_dict.npz")
+w_bkg_raw_dict = np.load("pnn_xgb/w_bkg_raw_dict.npz")
+X_bkg_raw = None
+w_bkg_raw = None
+for bkg_name, bkg_files in background_files_dict.items():
+    X_bkg_raw = X_bkg_raw_dict[bkg_name] if X_bkg_raw is None else np.concatenate([X_bkg_raw, X_bkg_raw_dict[bkg_name]], axis=0)
+    w_bkg_raw = w_bkg_raw_dict[bkg_name] if w_bkg_raw is None else np.concatenate([w_bkg_raw, w_bkg_raw_dict[bkg_name]], axis=0)
+
+
 print(f"Background events: {len(X_bkg_raw)}")
 X_bkg_count = len(X_bkg_raw)
 
@@ -618,7 +684,7 @@ Xs_train_raw, Xs_val_raw, ms_train, ms_val, ws_train_raw, ws_val_raw = train_tes
     Xs_temp, ms_temp, ws_temp, test_size=0.10, random_state=42
 )
 
-print(f"\nRaw splits:")
+print("\nRaw splits:")
 print(f"  Signal     — train: {len(Xs_train_raw)}  val: {len(Xs_val_raw)}  test: {len(Xs_test_raw)}")
 print(f"  Background — train: {len(Xb_train_raw)}  val: {len(Xb_val_raw)}  test: {len(Xb_test_raw)}")
 print(f"  Sig Weight — train: {len(ws_train_raw)}  val: {len(ws_val_raw)}  test: {len(ws_test_raw)}")
@@ -628,6 +694,11 @@ rng = np.random.default_rng(42)
 
 
 # ── 3. Build TRAINING data — duplicate background across all masses ───────────
+
+# for the training weights from the ntuples,
+# we do an ABS for some reason...
+ws_train_phys_raw = np.abs(ws_train_raw)
+wb_train_phys_raw = np.abs(wb_train_raw)
 
 # Signal train: append true log mass
 X_sig_train = np.concatenate(
@@ -643,10 +714,11 @@ for m, X in X_sig_list:
     mask = (ms_train == m)
     if mask.sum() > 0:
         w_sig_train[mask] = len(mass_grid) / mask.sum()
-
+w_sig_train *= ws_train_phys_raw
 
 # Background train: duplicate across all masses
 bkg_chunks = []
+bkg_w_chunks = []
 for m in mass_grid:
     X_bkg_m = np.concatenate(
         [Xb_train_raw,
@@ -654,10 +726,16 @@ for m in mass_grid:
         axis=1
     )
     bkg_chunks.append(X_bkg_m)
+    bkg_w_chunks.append(wb_train_phys_raw)
 
+
+    
 X_bkg_train = np.concatenate(bkg_chunks, axis=0)
 y_bkg_train = np.zeros(len(X_bkg_train), dtype=np.int32)
 w_bkg_train = np.full(len(X_bkg_train), 1.0 / len(mass_grid), dtype=np.float32)
+
+w_bkg_chunks_all = np.concatenate(bkg_w_chunks, axis=0)
+w_bkg_train *= w_bkg_chunks_all
 
 # Global balance for training
 total_sig_w = w_sig_train.sum()
@@ -666,6 +744,9 @@ if total_sig_w < total_bkg_w:
     w_sig_train *= (total_bkg_w / total_sig_w)
 else:
     w_bkg_train *= (total_sig_w / total_bkg_w)
+
+print(f"X_sig_train={len(X_sig_train)},   ws_train_phys_raw={len(ws_train_phys_raw)}")
+print(f"X_bkg_train={len(X_sig_train)},   ws_train_phys_raw={len(ws_train_phys_raw)}")
 
 # Stack training data
 X_train = np.concatenate([X_sig_train, X_bkg_train], axis=0).astype(np.float32)
@@ -681,6 +762,9 @@ print(f"Weighted background: {w_train[y_train==0].sum():.1f}")
 # ── 4. Build VALIDATION data — one random mass per background event ───────────
 # NOT duplicated — clean signal for reliable early stopping
 
+ws_val_phys_raw = np.abs(ws_val_raw)
+wb_val_phys_raw = np.abs(wb_val_raw)
+
 # Signal val: append true log mass
 X_sig_val = np.concatenate(
     [Xs_val_raw,
@@ -695,6 +779,7 @@ for m, X in X_sig_list:
     mask = (ms_val == m)
     if mask.sum() > 0:
         w_sig_val[mask] = len(mass_grid) / mask.sum()
+w_sig_val *= ws_val_phys_raw
 
 # Background val: one random mass per event (not duplicated)
 m_val_bkg = rng.choice(mass_grid, size=len(Xb_val_raw)).astype(np.float32)
@@ -704,7 +789,7 @@ X_bkg_val = np.concatenate(
     axis=1
 )
 y_bkg_val = np.zeros(len(X_bkg_val), dtype=np.int32)
-w_bkg_val = np.ones(len(X_bkg_val), dtype=np.float32)
+w_bkg_val = wb_val_phys_raw
 
 # Global balance for validation
 total_sig_val_w = w_sig_val.sum()
@@ -735,7 +820,7 @@ w_test_bkg_raw = wb_test_raw
 y_test_sig     = np.ones(len(Xs_test_raw),  dtype=np.int32)
 y_test_bkg     = np.zeros(len(Xb_test_raw), dtype=np.int32)
 
-print(f"\nTest set (raw, no mass column):")
+print("\nTest set (raw, no mass column):")
 print(f"  Signal:     {len(X_sig_test_raw)} events")
 print(f"  Background: {len(X_test_raw)} unique events")
 print(f"\nFeature vector width for training: {X_train.shape[1]} "
@@ -748,72 +833,77 @@ def predict_at_mass(model, X_features_raw, mass_value):
     X_features_raw: (N, n_phys)  — NO mass column
     Returns: (N,) probability array
     """
+
+    # now that I'm loading/reading per bkg sometimes,
+    # there are 0-event files so
+    # we must now return explicitly a 0-len array
+    if len(X_features_raw) == 0:
+        return np.array([], dtype=np.float32)
+    
     X_with_m = append_log_mass(X_features_raw, mass_value)
-    return model.predict_proba(X_with_m)[:, 1].astype(np.float32)
+    X_gpu = cp.array(X_with_m)
+    probs = model.predict_proba(X_gpu)[:, 1].astype(np.float32)
+
+    # also apparently might want to return
+    # np array rather than cp array
+    if isinstance(probs, cp.ndarray):
+        return probs.get().astype(np.float32)
+    return probs.astype(np.float32)
 
 
-# import optuna
-# from sklearn.metrics import roc_auc_score
-# import numpy as np
-# import xgboost as xgb
-
-# def objective(trial):
-#     params = dict(
-#         n_estimators         = 20000,
-#         learning_rate        = trial.suggest_float("learning_rate", 0.005, 0.05, log=True),
-#         max_depth            = trial.suggest_int("max_depth", 4, 12),
-#         subsample            = trial.suggest_float("subsample", 0.5, 1.0),
-#         colsample_bytree     = 1.0,
-#         colsample_bylevel    = trial.suggest_float("colsample_bylevel", 0.5, 1.0),
-#         gamma                = trial.suggest_float("gamma", 1e-4, 5.0, log=True),
-#         reg_lambda           = trial.suggest_float("reg_lambda", 1e-4, 10.0, log=True),
-#         alpha                = trial.suggest_float("alpha", 1e-4, 10.0, log=True),
-#         use_label_encoder    = False,
-#         eval_metric          = "logloss",
-#         early_stopping_rounds = 100,
-#         tree_method          = "hist",
-#         device               = "cuda",
-#         random_state         = 42,
-#     )
-#     model = xgb.XGBClassifier(**params)
-#     model.fit(
-#         X_train, y_train,
-#         eval_set               = [(X_val, y_val)],
-#         verbose                = 100,
-#     )
-#     X_bkg_val_raw = X_val_raw[y_val == 0]
-#     mass_weights = {
-#         250:  3.0, 300:  3.0, 350:  2.0, 400:  2.0, 500:  1.5,
-#         600:  1.0, 700:  1.0, 800:  1.0, 900:  1.0, 1000: 1.0,
-#         1200: 1.0, 1400: 1.0, 1600: 1.0, 1800: 1.0, 2000: 1.0,
-#         2500: 1.0, 3000: 1.0,
-#     }
-#     weighted_auc_sum = 0.0
-#     total_weight     = 0.0
-#     for m in mass_grid:
-#         mask_sig = (y_val == 1) & (np.abs(m_val - m) < 1.0)
-#         if mask_sig.sum() < 5:
-#             continue
-#         X_sig_m = X_val_raw[mask_sig]
-#         X_eval  = np.concatenate([X_sig_m, X_bkg_val_raw], axis=0)
-#         y_eval  = np.concatenate([np.ones(len(X_sig_m)), np.zeros(len(X_bkg_val_raw))])
-#         probs = predict_at_mass(model, X_eval, m)
-#         auc   = roc_auc_score(y_eval, probs)
-#         w = mass_weights.get(m, 1.0)
-#         weighted_auc_sum += w * auc
-#         total_weight     += w
-#     mean_auc = weighted_auc_sum / total_weight
-#     return mean_auc
-
-# n_phys  = len(pnn_features)
-# X_val_raw = X_val[:, :n_phys]
-# m_val     = np.exp(X_val[:, -1])
-
-# study = optuna.create_study(direction="maximize")
-# study.optimize(objective, n_trials=100, show_progress_bar=True)
-# print("Best AUC:", study.best_value)
-# print("Best params:", study.best_params)
-
+"""
+def objective(trial):
+    params = dict(
+        n_estimators         = 20000,
+        learning_rate        = trial.suggest_float("learning_rate", 0.005, 0.05, log=True),
+        max_depth            = trial.suggest_int("max_depth", 4, 12),
+        subsample            = trial.suggest_float("subsample", 0.5, 1.0),
+        colsample_bytree     = 1.0,
+        colsample_bylevel    = trial.suggest_float("colsample_bylevel", 0.5, 1.0),
+        gamma                = trial.suggest_float("gamma", 1e-4, 5.0, log=True),
+        reg_lambda           = trial.suggest_float("reg_lambda", 1e-4, 10.0, log=True),
+        alpha                = trial.suggest_float("alpha", 1e-4, 10.0, log=True),
+        eval_metric          = "logloss",
+        early_stopping_rounds = 100,
+        tree_method          = "hist",
+        device               = "cuda",
+        random_state         = 42,
+    )
+    model = xgb.XGBClassifier(**params)
+    model.fit(X_train, y_train,
+              sample_weight          = w_train,
+              eval_set               = [(X_train, y_train), (X_val, y_val)],
+              sample_weight_eval_set = [w_train, w_val],
+              verbose                = False,
+    )
+    
+    X_bkg_val_raw = X_val_raw[y_val == 0]
+    
+    weighted_auc_sum = 0.0
+    total_weight     = 0.0
+    for m in mass_grid:
+        mask_sig = (y_val == 1) & (np.abs(m_val - m) < 1.0)
+        if mask_sig.sum() < 5:
+            continue
+        X_sig_m = X_val_raw[mask_sig]
+        X_eval  = np.concatenate([X_sig_m, X_bkg_val_raw], axis=0)
+        y_eval  = np.concatenate([np.ones(len(X_sig_m)), np.zeros(len(X_bkg_val_raw))])
+        probs = predict_at_mass(model, X_eval, m)
+        auc   = roc_auc_score(y_eval, probs)
+        w = 1.0
+        weighted_auc_sum += w * auc
+        total_weight     += w
+    mean_auc = weighted_auc_sum / total_weight
+    return mean_auc
+n_phys  = len(pnn_features)
+X_val_raw = X_val[:, :n_phys]
+m_val     = np.exp(X_val[:, -1])
+study = optuna.create_study(direction="maximize")
+study.optimize(objective, n_trials=100, show_progress_bar=True)
+print("Best AUC:", study.best_value)
+print("Best params:", study.best_params)
+exit(0)
+"""
 
 # ── 4. Custom eval metric (unchanged from original) ───────────────────────────
  
@@ -829,20 +919,18 @@ def f1_eval_sklearn(y_true, y_pred):
 def build_pnn_model():
     return xgb.XGBClassifier(
         n_estimators          = 20000,
-        learning_rate         = 0.006089739621234152,
-        max_depth             = 8,
-        subsample             = 0.9029562810593745,
+        learning_rate         = 0.015112599069587925,
+        max_depth             = 12,
+        subsample             = 0.983362787316825,
         colsample_bytree      = 1.0,
-        colsample_bylevel     = 0.9270543452734271,
-        gamma                 = 0.001145678134391421,
-        reg_lambda            = 0.22838811632234002,
-        alpha                 = 9.627164038297993,
-        use_label_encoder     = False,
+        colsample_bylevel     = 0.5201218423827665,
+        gamma                 = 0.0006586894605906733,
+        reg_lambda            = 0.04484966066283736,
+        alpha                 = 0.001491180705629154,
         eval_metric           = "logloss",
         random_state          = 42,
         early_stopping_rounds = 100,
         tree_method           = "hist",
-        predictor             = "gpu_predictor",
         device                = "cuda",
     )
  
@@ -850,35 +938,64 @@ def build_pnn_model():
 # ── 6. Train ──────────────────────────────────────────────────────────────────
 
 model_path = "pnn_xgb/pnn_model.json"
-
+model_metrics_path = "pnn_xgb/pnn_model_results.json"
 print("\n=== Training XGB-pNN ===")
-pnn_model = xgb.XGBClassifier(device="cuda")
-pnn_model.load_model(model_path)
-print(f"Loaded pNN model from '{model_path}'")
 
 """
+pnn_model = xgb.XGBClassifier()
+pnn_model.load_model(model_path)
+pnn_model.set_params(device="cuda")
+with open(model_metrics_path, "r") as f:
+    result_metrics = json.load(f)
+print(f"Loaded pNN model from '{model_path}'")
+"""
+
 pnn_model = build_pnn_model()
 pnn_model.fit(
     X_train, y_train,
     sample_weight          = w_train,
-    eval_set               = [(X_val, y_val)],
-    sample_weight_eval_set = [w_val],
+    eval_set               = [(X_train, y_train), (X_val, y_val)],
+    sample_weight_eval_set = [w_train, w_val],
     verbose                = 100,
 )
-
-
 os.makedirs("pnn_xgb", exist_ok=True)
 pnn_model.save_model(model_path)
+result_metrics = pnn_model.evals_result()
+with open(model_metrics_path, "w") as f:
+    json.dump(result_metrics, f)
 print(f"Saved pNN model → {model_path}")
-"""
+
 
  
- 
-# ── 7. Inference helper ───────────────────────────────────────────────────────
+# ── 7. Result metrics ───────────────────────────────────────────────────────
+def plot_metrics(result_metrics):
+    num_epochs = len(result_metrics["validation_0"]["logloss"])
+    xaxis = range(num_epochs)
+    train_loss = result_metrics["validation_0"]["logloss"]
+    val_loss = result_metrics["validation_1"]["logloss"]
+    
+    fig,ax = plt.subplots(figsize=(8,6))
+    
+    ax.plot(xaxis, train_loss, label="Train loss")
+    ax.plot(xaxis, val_loss, label="Validation loss")
 
+    ax.legend()
+    ax.set_xlabel("Epochs (Trees)")
+    ax.set_ylabel("Log Loss")
+    ax.set_title("XGBoost LQ pNN Learning Curve")
+    ax.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    plt.savefig("pnn_xgb/learning-curve.png", dpi=200)
+    plt.close()
+    
+    print("Saved learning curve plot → pnn_xgb/learning_curve.png")
+
+plot_metrics(result_metrics)
  
  
 # ── 8. Sanity checks ──────────────────────────────────────────────────────────
+"""
 # Run these before trusting TRExFitter results.
 # Combined test set
 X_test_combined = np.concatenate([X_sig_test_raw, X_test_raw], axis=0)
@@ -925,7 +1042,7 @@ if len(X_probe) > 0:
         mean_score = predict_at_mass(pnn_model, X_probe, m).mean()
         bar = "█" * int(mean_score * 40)
         print(f"  hyp m={m:5.0f}:  {mean_score:.4f}  {bar}")
- 
+""" 
  
 # ── 9. Per-mass evaluation (feeds into TRExFitter) ────────────────────────────
 #
@@ -933,9 +1050,15 @@ if len(X_probe) > 0:
 #   - sig_prob for signal events at mass m
 #   - sig_prob for ALL background events
 #   - Save histograms for TRExFitter input
+
+X_test_combined = np.concatenate([X_sig_test_raw, X_test_raw], axis=0)
+y_test = np.concatenate([y_test_sig, y_test_bkg], axis=0).astype(np.int32)
+m_test = np.concatenate([m_sig_test, np.zeros(len(X_test_raw))], axis=0)  # bkg gets 0
+w_test = np.concatenate([w_test_sig_raw, w_test_bkg_raw], axis=0)
  
 print("\n=== Per-mass evaluation for TRExFitter ===")
 os.makedirs("pnn_xgb/trex_inputs", exist_ok=True)
+X_bkg_test_raw = X_test_raw   # X_test_raw is already pure background
  
 trex_results = {}
  
@@ -967,16 +1090,19 @@ for m in sorted(signal_by_mass.keys()):
     cm, tn, fp, fn, tp = compute_conf_matrix(y_combined, p_combined, best_thr)
     s_sqrt_b = tp / np.sqrt(fp) if fp > 0 else 0.0
  
-    print(f"\n  m={m:5d} GeV | AUC={auc:.4f} | F1={best_f1:.4f} "
+    print(f"m={m:5d} GeV | AUC={auc:.4f} | F1={best_f1:.4f} "
           f"| S/√B={s_sqrt_b:.2f} "
           f"| sig_eff={tp/(tp+fn):.3f} | bkg_rej={1-fp/(fp+tn):.3f}")
  
     # Optional: save prf1 plot
+
+    """
     save_prf1_vs_threshold_plot(
         y_combined, p_combined,
         title=f"pNN — m={m} GeV",
         out_path=f"pnn_xgb/trex_inputs/prf1_m{m}.png"
     )
+    """
  
     trex_results[m] = dict(auc=auc, best_f1=best_f1, s_sqrt_b=s_sqrt_b,
                            sig_eff=tp/(tp+fn), bkg_rej=1-fp/(fp+tn))
@@ -985,14 +1111,24 @@ for m in sorted(signal_by_mass.keys()):
     weights_sig_m = w_sig_m
     weights_bkg_m = w_test_bkg_raw
     
-    n_bins = 20
+    n_bins = 10
     bin_edges = np.linspace(0.0, 1.0, n_bins+1)
     sig_scaled,_ = np.histogram(p_sig, bins=bin_edges, weights=weights_sig_m)
     bkg_scaled,_ = np.histogram(p_bkg, bins=bin_edges, weights=weights_bkg_m)
+    # sig_scaled,_ = np.histogram(p_sig, bins=bin_edges)
+    # bkg_scaled,_ = np.histogram(p_bkg, bins=bin_edges)
 
     with uproot.recreate(f"pnn_xgb/trex_inputs/hist_m{m}.root") as f:
         f["Signal"] = (sig_scaled, bin_edges)
         f["Background"] = (bkg_scaled, bin_edges)
+
+        # re-acquire all background and their raw weights
+        # to acquire the output histograms to be used for signal separation plot
+        for bkg_name,_ in background_files_dict.items():
+            X_bkg, W_bkg = X_bkg_raw_dict[bkg_name], w_bkg_raw_dict[bkg_name]
+            p_bkg_ind = predict_at_mass(pnn_model, X_bkg, m)
+            bkg_ind_scaled,_ = np.histogram(p_bkg_ind, bins=bin_edges, weights=W_bkg)
+            f[bkg_name] = (bkg_ind_scaled, bin_edges)
         
  
 # ── 10. Summary table ─────────────────────────────────────────────────────────

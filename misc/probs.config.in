@@ -1,0 +1,248 @@
+Job: "lq-bymass-probs"
+  AtlasLabel: none
+  CmeLabel: "13 TeV"
+  POI: "mu_LQ"
+  ReadFrom: HIST
+  OutputDir: ./trexfitter-output/m%MASS%
+  HistoPaths: ./pnn_xgb/trex_inputs
+  Label: "LQ"
+  LumiLabel: "140 fb^{-1}"
+  Lumi: 1.0
+  MCstatThreshold: 0.05
+  HistoChecks: NOCRASH
+  SplitHistoFiles: TRUE
+  ImageFormat: pdf,png
+  DoSignalRegionsPlot: TRUE
+  RatioYmin: 0.5
+  RatioYmax: 1.5
+  DebugLevel: 0
+  BlindingThreshold: 0.15
+  PlotOptions: "YIELDS,NORATIO"
+
+
+Fit: fit
+  FitType: SPLUSB
+  FitRegion: CRSR
+  FitBlind: TRUE
+  UseMinos: "mu_LQ"
+
+
+NormFactor: "mu_LQ"
+  Title: "#mu_(LQ)"
+  Min: -100
+  Max: 100
+  Nominal: 1
+  Constant: FALSE
+  Samples: LQ
+
+
+Region: "Signal_Region"
+  Type: SIGNAL
+  Variable: "pNN_Score"
+  VariableTitle: "pNN Output Probability"
+  LogScale: TRUE
+  Ymin: 0.01
+  Label: "Signal Region"
+  ShortLabel: "SR"
+  Binning: 0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0
+
+
+
+Sample: "LQ"
+  Type: SIGNAL
+  Group: "LQ"
+  Title: "LQ"
+  FillColor: 2
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "Signal"
+
+Sample: "ttH"
+  Type: BACKGROUND
+  Group: "ttH"
+  Title: "ttH"
+  FillColor: 3
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttH"
+    
+Sample: "ttW"
+  Type: BACKGROUND
+  Group: "ttW"
+  Title: "ttW"
+  FillColor: 4
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttW"
+    
+Sample: "ttZ"
+  Type: BACKGROUND
+  Group: "ttZ"
+  Title: "ttZ"
+  FillColor: 5
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttZ"
+    
+Sample: "ttbar"
+  Type: BACKGROUND
+  Group: "ttbar"
+  Title: "ttbar"
+  FillColor: 6
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttbar"
+    
+Sample: "vv"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "vv"
+  FillColor: 20
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "vv"
+    
+Sample: "vvv"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "vvv"
+  FillColor: 21
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "vvv"
+    
+Sample: "vh"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "vh"
+  FillColor: 22
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "vh"
+    
+Sample: "vgamma"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "vgamma"
+  FillColor: 23
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "vgamma"
+    
+Sample: "wjets"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "wjets"
+  FillColor: 24
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "wjets"
+    
+Sample: "zjets"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "zjets"
+  FillColor: 25
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "zjets"
+    
+Sample: "ttHH"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "ttHH"
+  FillColor: 26
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttHH"
+    
+Sample: "ttWH"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "ttWH"
+  FillColor: 27
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttWH"
+    
+Sample: "ttWW"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "ttWW"
+  FillColor: 28
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttWW"
+    
+Sample: "ttWZ"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "ttWZ"
+  FillColor: 29
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttWZ"
+    
+Sample: "ttZZ"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "ttZZ"
+  FillColor: 30
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttZZ"
+    
+Sample: "ttgamma"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "ttgamma"
+  FillColor: 31
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttgamma"
+    
+Sample: "tZ"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "tZ"
+  FillColor: 32
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "tZ"
+    
+Sample: "WtZ"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "WtZ"
+  FillColor: 33
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "WtZ"
+    
+Sample: "fourTop"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "fourTop"
+  FillColor: 34
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "fourTop"
+    
+Sample: "singleTop"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "singleTop"
+  FillColor: 35
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "singleTop"
+    
+Sample: "threeTop"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "threeTop"
+  FillColor: 36
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "threeTop"
+    
