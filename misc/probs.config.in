@@ -1,5 +1,4 @@
 Job: "lq-bymass-probs"
-  AtlasLabel: none
   CmeLabel: "13 TeV"
   POI: "mu_LQ"
   ReadFrom: HIST

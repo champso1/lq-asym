@@ -10,11 +10,14 @@ import shap
 import pandas as pd
 import json
 import cupy as cp
-import optuna
+#import optuna
 
 
 # base = "/home/champson/data/fastframes"
-base = "/mnt/d/Documents/Ntuples/fastframes"
+# base = "/mnt/d/Documents/Ntuples/fastframes"
+base = "/home/champson/Dropbox/CERN/ntuples/fastframes"
+use_gpu = False
+print("Using GPU" if use_gpu else "Not using GPU")
 # -----------------------------
 # lq masses (1.0 yukawa only)
 # -----------------------------
@@ -839,10 +842,14 @@ def predict_at_mass(model, X_features_raw, mass_value):
     # we must now return explicitly a 0-len array
     if len(X_features_raw) == 0:
         return np.array([], dtype=np.float32)
-    
-    X_with_m = append_log_mass(X_features_raw, mass_value)
-    X_gpu = cp.array(X_with_m)
-    probs = model.predict_proba(X_gpu)[:, 1].astype(np.float32)
+
+    if (use_gpu):
+        X_with_m = append_log_mass(X_features_raw, mass_value)
+        X_gpu = cp.array(X_with_m)
+        probs = model.predict_proba(X_gpu)[:, 1].astype(np.float32)
+    else:
+        X_with_m = append_log_mass(X_features_raw, mass_value)
+        probs = model.predict_proba(X_with_m)[:, 1].astype(np.float32)
 
     # also apparently might want to return
     # np array rather than cp array
@@ -941,15 +948,15 @@ model_path = "pnn_xgb/pnn_model.json"
 model_metrics_path = "pnn_xgb/pnn_model_results.json"
 print("\n=== Training XGB-pNN ===")
 
-"""
+
 pnn_model = xgb.XGBClassifier()
 pnn_model.load_model(model_path)
 pnn_model.set_params(device="cuda")
 with open(model_metrics_path, "r") as f:
     result_metrics = json.load(f)
 print(f"Loaded pNN model from '{model_path}'")
-"""
 
+"""
 pnn_model = build_pnn_model()
 pnn_model.fit(
     X_train, y_train,
@@ -964,7 +971,7 @@ result_metrics = pnn_model.evals_result()
 with open(model_metrics_path, "w") as f:
     json.dump(result_metrics, f)
 print(f"Saved pNN model → {model_path}")
-
+"""
 
  
 # ── 7. Result metrics ───────────────────────────────────────────────────────

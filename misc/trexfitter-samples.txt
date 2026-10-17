@@ -1,0 +1,189 @@
+Sample: "ttH"
+  Type: BACKGROUND
+  Group: "ttH"
+  Title: "ttH"
+  FillColor: 3
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttH"
+    
+Sample: "ttW"
+  Type: BACKGROUND
+  Group: "ttW"
+  Title: "ttW"
+  FillColor: 4
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttW"
+    
+Sample: "ttZ"
+  Type: BACKGROUND
+  Group: "ttZ"
+  Title: "ttZ"
+  FillColor: 5
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttZ"
+    
+Sample: "ttbar"
+  Type: BACKGROUND
+  Group: "ttbar"
+  Title: "ttbar"
+  FillColor: 6
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttbar"
+    
+Sample: "vv"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "vv"
+  FillColor: 20
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "vv"
+    
+Sample: "vvv"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "vvv"
+  FillColor: 21
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "vvv"
+    
+Sample: "vh"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "vh"
+  FillColor: 22
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "vh"
+    
+Sample: "vgamma"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "vgamma"
+  FillColor: 23
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "vgamma"
+    
+Sample: "wjets"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "wjets"
+  FillColor: 24
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "wjets"
+    
+Sample: "zjets"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "zjets"
+  FillColor: 25
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "zjets"
+    
+Sample: "ttHH"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "ttHH"
+  FillColor: 26
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttHH"
+    
+Sample: "ttWH"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "ttWH"
+  FillColor: 27
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttWH"
+    
+Sample: "ttWW"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "ttWW"
+  FillColor: 28
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttWW"
+    
+Sample: "ttWZ"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "ttWZ"
+  FillColor: 29
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttWZ"
+    
+Sample: "ttZZ"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "ttZZ"
+  FillColor: 30
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttZZ"
+    
+Sample: "ttgamma"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "ttgamma"
+  FillColor: 31
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "ttgamma"
+    
+Sample: "tZ"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "tZ"
+  FillColor: 32
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "tZ"
+    
+Sample: "WtZ"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "WtZ"
+  FillColor: 33
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "WtZ"
+    
+Sample: "fourTop"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "fourTop"
+  FillColor: 34
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "fourTop"
+    
+Sample: "singleTop"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "singleTop"
+  FillColor: 35
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "singleTop"
+    
+Sample: "threeTop"
+  Type: BACKGROUND
+  Group: "Other"
+  Title: "threeTop"
+  FillColor: 36
+  LineColor: 1
+  HistoFile: "hist_m%MASS%"
+  HistoName: "threeTop"
+    
