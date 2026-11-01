@@ -58,7 +58,7 @@ ax.plot(masses, exp, color="black", linestyle="--", label="Exp. 95% CL Limit")
 ax.set_yscale("log")
 ax.set_xlabel("LQ Mass [GeV]")
 ax.set_ylabel("Cross Section [pb]")
-ax.set_ylim(bottom=5e-4, top=5e-2)
+ax.set_ylim(bottom=1e-4, top=5e-3)
 ax.set_title("Upper Limit on Cross Section at 95% CL")
 ax.legend(loc="upper right")
 

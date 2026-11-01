@@ -17,7 +17,6 @@ import cupy as cp
 # base = "/mnt/d/Documents/Ntuples/fastframes"
 base = "/home/champson/Dropbox/CERN/ntuples/fastframes"
 use_gpu = False
-print("Using GPU" if use_gpu else "Not using GPU")
 # -----------------------------
 # lq masses (1.0 yukawa only)
 # -----------------------------
@@ -322,9 +321,9 @@ ttZZ = [
 ]
 
 ttgamma = [
-    f"{base}/mc20a/500462.root",
-    f"{base}/mc20d/500462.root",
-    f"{base}/mc20e/500462.root",
+    f"{base}/mc20a/500800.root",
+    f"{base}/mc20d/500800.root",
+    f"{base}/mc20e/500800.root",
     
     f"{base}/mc20a/504554.root",
     f"{base}/mc20d/504554.root",
@@ -549,6 +548,16 @@ def find_best_f1_threshold(y_true, y_prob):
     return thresholds[best_idx], f1_scores[best_idx]
  
  
+def test_to_full_scale(w_full, w_test):
+    """Factor that scales a test-split histogram up to the full-sample yield."""
+    if len(w_test) == 0:
+        return 0.0
+    if w_test.sum() <= 0:
+        # weight-sum ratio is meaningless here, fall back to event-count ratio
+        return len(w_full) / len(w_test)
+    return w_full.sum() / w_test.sum()
+
+
 def compute_conf_matrix(y_true, y_prob, threshold):
     y_pred = (y_prob >= threshold).astype(int)
     cm = confusion_matrix(y_true, y_pred)
@@ -607,7 +616,7 @@ cut_expr = "(taus_n_NOSYS >= 1) * (jets_n_NOSYS >= 2) * (nbJets77_NOSYS >= 1) * 
 
 print("\n=== Loading background ===")
 
-"""
+
 X_bkg_raw_dict = {}
 w_bkg_raw_dict = {}
 X_bkg_raw = None
@@ -618,15 +627,14 @@ for bkg_name, bkg_files in background_files_dict.items():
     w_bkg_raw = w_bkg_raw_dict[bkg_name] if w_bkg_raw is None else np.concatenate([w_bkg_raw, w_bkg_raw_dict[bkg_name]], axis=0)
 np.savez("pnn_xgb/X_bkg_raw_dict.npz", **X_bkg_raw_dict)
 np.savez("pnn_xgb/w_bkg_raw_dict.npz", **w_bkg_raw_dict)
-"""
 
 X_bkg_raw_dict = np.load("pnn_xgb/X_bkg_raw_dict.npz")
 w_bkg_raw_dict = np.load("pnn_xgb/w_bkg_raw_dict.npz")
-X_bkg_raw = None
-w_bkg_raw = None
-for bkg_name, bkg_files in background_files_dict.items():
-    X_bkg_raw = X_bkg_raw_dict[bkg_name] if X_bkg_raw is None else np.concatenate([X_bkg_raw, X_bkg_raw_dict[bkg_name]], axis=0)
-    w_bkg_raw = w_bkg_raw_dict[bkg_name] if w_bkg_raw is None else np.concatenate([w_bkg_raw, w_bkg_raw_dict[bkg_name]], axis=0)
+bkg_names = list(background_files_dict.keys())
+X_bkg_raw = np.concatenate([X_bkg_raw_dict[k] for k in bkg_names], axis=0)
+w_bkg_raw = np.concatenate([w_bkg_raw_dict[k] for k in bkg_names], axis=0)
+# index into bkg_names for each event, so per-sample test events can be recovered after the split
+l_bkg_raw = np.concatenate([np.full(len(X_bkg_raw_dict[k]), i) for i, k in enumerate(bkg_names)])
 
 
 print(f"Background events: {len(X_bkg_raw)}")
@@ -637,7 +645,6 @@ mass_grid  = np.array(sorted(signal_by_mass.keys()), dtype=np.float32)
 print(f"Masses: {mass_grid}")
 
 # saving data at first
-"""
 X_sig_dict = {}
 w_sig_dict = {}
 for m, files in sorted(signal_by_mass.items()):
@@ -648,7 +655,6 @@ for m, files in sorted(signal_by_mass.items()):
     print(f"  m={m:5d} GeV: {len(X)} events")
 np.savez("pnn_xgb/X_sig_list.npz", **X_sig_dict)
 np.savez("pnn_xgb/w_sig_list.npz", **w_sig_dict)
-"""
 
 X_sig_list_archive = np.load("pnn_xgb/X_sig_list.npz")
 w_sig_list_archive = np.load("pnn_xgb/w_sig_list.npz")
@@ -664,6 +670,7 @@ for m, files in sorted(signal_by_mass.items()):
 X_sig_count_bymass = {}
 for m,X in X_sig_list:
     X_sig_count_bymass[m] = len(X)
+w_sig_full_bymass = {m: w for m, w in w_sig_list}
 
 X_sig_raw_all  = np.concatenate([X for _, X in X_sig_list], axis=0)
 w_sig_raw_all  = np.concatenate([w for _, w in w_sig_list], axis=0)
@@ -676,7 +683,7 @@ m_sig_true_all = np.concatenate([np.full(len(X), m) for m, X in X_sig_list])
 # so early stopping and evaluation are not affected by duplication noise
 
 # Split raw background 80/10/10
-Xb_temp, Xb_test_raw, wb_temp, wb_test_raw = train_test_split(X_bkg_raw, w_bkg_raw, test_size=0.10, random_state=42)
+Xb_temp, Xb_test_raw, wb_temp, wb_test_raw, lb_temp, lb_test_raw = train_test_split(X_bkg_raw, w_bkg_raw, l_bkg_raw, test_size=0.10, random_state=42)
 Xb_train_raw, Xb_val_raw, wb_train_raw, wb_val_raw = train_test_split(Xb_temp, wb_temp, test_size=0.10, random_state=42)
 
 # Split raw signal 80/10/10
@@ -749,7 +756,7 @@ else:
     w_bkg_train *= (total_sig_w / total_bkg_w)
 
 print(f"X_sig_train={len(X_sig_train)},   ws_train_phys_raw={len(ws_train_phys_raw)}")
-print(f"X_bkg_train={len(X_sig_train)},   ws_train_phys_raw={len(ws_train_phys_raw)}")
+print(f"X_bkg_train={len(X_bkg_train)},   wb_train_phys_raw={len(wb_train_phys_raw)}")
 
 # Stack training data
 X_train = np.concatenate([X_sig_train, X_bkg_train], axis=0).astype(np.float32)
@@ -1114,27 +1121,29 @@ for m in sorted(signal_by_mass.keys()):
     trex_results[m] = dict(auc=auc, best_f1=best_f1, s_sqrt_b=s_sqrt_b,
                            sig_eff=tp/(tp+fn), bkg_rej=1-fp/(fp+tn))
 
-    # Save sig_prob arrays as histograms
-    weights_sig_m = w_sig_m
-    weights_bkg_m = w_test_bkg_raw
-    
+    # Save sig_prob arrays as histograms.
+    # Only test-split events are used (the model never saw them), and each
+    # histogram is scaled up so its integral matches the full-sample yield.
     n_bins = 10
     bin_edges = np.linspace(0.0, 1.0, n_bins+1)
-    sig_scaled,_ = np.histogram(p_sig, bins=bin_edges, weights=weights_sig_m)
-    bkg_scaled,_ = np.histogram(p_bkg, bins=bin_edges, weights=weights_bkg_m)
-    # sig_scaled,_ = np.histogram(p_sig, bins=bin_edges)
-    # bkg_scaled,_ = np.histogram(p_bkg, bins=bin_edges)
+    sig_scale = test_to_full_scale(w_sig_full_bymass[m], w_sig_m)
+    sig_scaled,_ = np.histogram(p_sig, bins=bin_edges, weights=w_sig_m * sig_scale)
+
+    # per-sample background test histograms; total Background is their sum
+    bkg_ind_hists = {}
+    for i, bkg_name in enumerate(bkg_names):
+        test_mask = (lb_test_raw == i)
+        bkg_scale = test_to_full_scale(w_bkg_raw_dict[bkg_name], wb_test_raw[test_mask])
+        if len(w_bkg_raw_dict[bkg_name]) > 0 and test_mask.sum() == 0:
+            print(f"  WARNING: {bkg_name} has {len(w_bkg_raw_dict[bkg_name])} events but none in the test split; histogram will be empty")
+        bkg_ind_hists[bkg_name],_ = np.histogram(p_bkg[test_mask], bins=bin_edges,
+                                                 weights=wb_test_raw[test_mask] * bkg_scale)
+    bkg_scaled = np.sum(list(bkg_ind_hists.values()), axis=0)
 
     with uproot.recreate(f"pnn_xgb/trex_inputs/hist_m{m}.root") as f:
         f["Signal"] = (sig_scaled, bin_edges)
         f["Background"] = (bkg_scaled, bin_edges)
-
-        # re-acquire all background and their raw weights
-        # to acquire the output histograms to be used for signal separation plot
-        for bkg_name,_ in background_files_dict.items():
-            X_bkg, W_bkg = X_bkg_raw_dict[bkg_name], w_bkg_raw_dict[bkg_name]
-            p_bkg_ind = predict_at_mass(pnn_model, X_bkg, m)
-            bkg_ind_scaled,_ = np.histogram(p_bkg_ind, bins=bin_edges, weights=W_bkg)
+        for bkg_name, bkg_ind_scaled in bkg_ind_hists.items():
             f[bkg_name] = (bkg_ind_scaled, bin_edges)
         
  
