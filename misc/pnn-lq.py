@@ -450,14 +450,14 @@ selected_features = [
 
 
 signal_by_mass = {
-    1500:  signal_file_1,
+    1500: signal_file_1,
     2000: signal_file_2,
-    2500:  signal_file_3,
-    1600:  signal_file_4,
-    1700:  signal_file_5,
-    1800:  signal_file_6,
-    1900:  signal_file_7,
-    2100:  signal_file_8,
+    2500: signal_file_3,
+    1600: signal_file_4,
+    1700: signal_file_5,
+    1800: signal_file_6,
+    1900: signal_file_7,
+    2100: signal_file_8,
     2200: signal_file_9,
     2300: signal_file_10,
     2400: signal_file_11,
@@ -956,14 +956,15 @@ model_metrics_path = "pnn_xgb/pnn_model_results.json"
 print("\n=== Training XGB-pNN ===")
 
 
+"""
 pnn_model = xgb.XGBClassifier()
 pnn_model.load_model(model_path)
 pnn_model.set_params(device="cuda")
 with open(model_metrics_path, "r") as f:
     result_metrics = json.load(f)
 print(f"Loaded pNN model from '{model_path}'")
-
 """
+
 pnn_model = build_pnn_model()
 pnn_model.fit(
     X_train, y_train,
@@ -978,7 +979,7 @@ result_metrics = pnn_model.evals_result()
 with open(model_metrics_path, "w") as f:
     json.dump(result_metrics, f)
 print(f"Saved pNN model → {model_path}")
-"""
+
 
  
 # ── 7. Result metrics ───────────────────────────────────────────────────────
